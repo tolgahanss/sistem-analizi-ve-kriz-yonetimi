@@ -1,0 +1,12 @@
+# Ignore PDF files
+*.pdf
+
+# Ignore extracted texts and cache folder
+extracted/
+__pycache__/
+
+# Ignore other local tool config files
+.gemini/
+.idea/
+.vscode/
+*.pyc

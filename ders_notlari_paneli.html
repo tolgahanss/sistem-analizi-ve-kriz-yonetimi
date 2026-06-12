@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ders Çalışma Portalı</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for clean structural navigation -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* SOLID MINIMALIST DESIGN SYSTEM (Shadcn / Tailwind CSS Doc Style) */
+    :root {
+      --bg-color: #09090b;
+      --card-bg: #18181b;
+      --card-border: #27272a;
+      --text-color: #fafafa;
+      --text-muted: #a1a1aa;
+      --primary-color: #3f3f46;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --danger-color: #ef4444;
+      --success-color: #22c55e;
+      --warning-color: #f59e0b;
+      --sidebar-width: 260px;
+      --toc-width: 240px;
+      --border-radius: 4px; /* Sharp corners */
+    }
+
+    [data-theme="light"] {
+      --bg-color: #ffffff;
+      --card-bg: #f4f4f5;
+      --card-border: #e4e4e7;
+      --text-color: #09090b;
+      --text-muted: #71717a;
+      --primary-color: #e4e4e7;
+      --accent-color: #2563eb;
+      --accent-hover: #1d4ed8;
+    }
+
+    /* Base resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      color: var(--text-color);
+      letter-spacing: -0.02em;
+    }
+
+    /* HUB (HOME SCREEN) VIEW */
+    .hub-container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .hub-header {
+      border-left: 3px solid var(--accent-color);
+      padding-left: 20px;
+    }
+
+    .hub-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hub-subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    .course-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .course-card:hover {
+      border-color: var(--text-muted);
+    }
+
+    .course-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .course-icon-wrapper {
+      color: var(--accent-color);
+      font-size: 20px;
+    }
+
+    .course-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .course-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .course-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .course-stats span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .course-stats i {
+      color: var(--text-muted);
+    }
+
+    .course-progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-label-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .progress-bar-bg {
+      height: 4px;
+      background: var(--card-border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent-color);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .course-action-btn {
+      padding: 10px 14px;
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      background: transparent;
+      color: var(--text-color);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .course-card:hover .course-action-btn {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #ffffff;
+    }
+
+    /* GLOBAL THEME SWITCH IN HUB */
+    .hub-theme-toggle {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      padding: 8px 16px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .hub-theme-toggle:hover {
+      border-color: var(--text-muted);
+    }
+
+    /* STUDY WORKSPACE (STUDY WRAPPER) */
+    .workspace-wrapper {
+      display: none;
+      width: 100%;
+    }
+
+    /* Sidebar - Flat & clean */
+    aside.sidebar {
+      width: var(--sidebar-width);
+      background: var(--card-bg);
+      border-right: 1px solid var(--card-border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .brand i {
+      color: var(--accent-color);
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      border-color: var(--text-muted);
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.1s ease;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: var(--text-color);
+      background: var(--bg-color);
+    }
+
+    .nav-item.active {
+      border-left: 2px solid var(--accent-color);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      font-weight: 600;
+    }
+
+    .nav-divider {
+      height: 1px;
+      background: var(--card-border);
+      margin: 16px 0;
+    }
+
+    .sidebar-theme-toggle {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--text-color);
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-theme-toggle:hover {
+      border-color: var(--text-muted);
+    }
+
+    /* Main Content Area */
+    main.main-content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 40px 60px;
+      display: flex;
+      gap: 40px;
+      width: calc(100% - var(--sidebar-width));
+    }
+
+    /* Reading layout columns */
+    .reading-col {
+      flex: 1;
+      max-width: 820px; /* Golden standard for maximum readability */
+    }
+
+    .toc-col {
+      width: var(--toc-width);
+      position: sticky;
+      top: 40px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @media (max-width: 1200px) {
+      .toc-col {
+        display: none; /* Hide TOC on smaller screens */
+      }
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 20px;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text-color);
+      font-size: 13px;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--text-muted);
+    }
+
+    /* Statistics dashboard */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-info h4 {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-info p {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    /* Tabs Header */
+    .tabs-header {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      padding: 10px 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-color);
+    }
+
+    .tab-btn.active {
+      color: var(--accent-color);
+      border-bottom-color: var(--accent-color);
+    }
+
+    /* Notes reading section */
+    .notes-viewer {
+      background: transparent;
+    }
+
+    .markdown-body {
+      line-height: 1.8; /* Optimal readability satır yüksekliği */
+      font-size: 16px; /* İdeal okunurluk boyutu */
+      color: var(--text-color);
+    }
+
+    /* Clean typography details */
+    .markdown-body h1 {
+      font-size: 30px;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 10px;
+    }
+
+    .markdown-body h2 {
+      font-size: 22px;
+      margin-top: 36px;
+      margin-bottom: 16px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .markdown-body h3 {
+      font-size: 18px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .markdown-body p {
+      margin-bottom: 20px;
+    }
+
+    .markdown-body strong {
+      font-weight: 600;
+    }
+
+    /* Lists */
+    .markdown-body ul, .markdown-body ol {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    .markdown-body li {
+      margin-bottom: 8px;
+    }
+
+    /* Blockquotes */
+    .markdown-body blockquote {
+      padding: 12px 20px;
+      background: var(--card-bg);
+      border-left: 3px solid var(--text-muted);
+      border-radius: var(--border-radius);
+      margin-bottom: 24px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Alert Boxes (flat look, no heavy shadows/gradients) */
+    .markdown-body .alert {
+      padding: 16px;
+      border-radius: var(--border-radius);
+      margin-bottom: 24px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+    }
+
+    .alert-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .markdown-body .alert.important {
+      border-left: 3px solid var(--accent-color);
+    }
+    .markdown-body .alert.important .alert-title {
+      color: var(--accent-color);
+    }
+
+    .markdown-body .alert.tip {
+      border-left: 3px solid var(--success-color);
+    }
+    .markdown-body .alert.tip .alert-title {
+      color: var(--success-color);
+    }
+
+    .markdown-body .alert.warning {
+      border-left: 3px solid var(--warning-color);
+    }
+    .markdown-body .alert.warning .alert-title {
+      color: var(--warning-color);
+    }
+
+    .markdown-body .alert.caution {
+      border-left: 3px solid var(--danger-color);
+    }
+    .markdown-body .alert.caution .alert-title {
+      color: var(--danger-color);
+    }
+
+    /* Tables (Strict, high contrast, clean borders) */
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      border: 1px solid var(--card-border);
+      font-size: 14px;
+    }
+
+    .markdown-body th {
+      background: var(--card-bg);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+    }
+
+    .markdown-body td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+    }
+
+    .markdown-body tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Clean metadata tags instead of raw emojis */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .tag-exam {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning-color);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .tag-critical {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger-color);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* TOC Menu Style */
+    .toc-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toc-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      display: block;
+      line-height: 1.4;
+      transition: color 0.1s ease;
+    }
+
+    .toc-link:hover {
+      color: var(--text-color);
+    }
+
+    /* Highlight Search */
+    mark {
+      background-color: rgba(245, 158, 11, 0.35);
+      color: inherit;
+      border-radius: 1px;
+    }
+
+    /* Study Mode Grid */
+    .study-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 16px;
+    }
+
+    .study-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 180px;
+      justify-content: space-between;
+    }
+
+    .study-card:hover {
+      border-color: var(--text-muted);
+    }
+
+    .study-card-header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .study-content {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .study-source {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top: 1px solid var(--card-border);
+      padding-top: 8px;
+    }
+
+    /* Interactive checkbox for sections */
+    .section-wrapper {
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      margin-bottom: 16px;
+      padding: 20px;
+      background: var(--card-bg);
+    }
+
+    .section-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-title-bar h2 {
+      border-bottom: none;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      font-size: 18px;
+    }
+
+    .section-content {
+      margin-top: 20px;
+    }
+
+    .progress-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 2px;
+      border: 1.5px solid var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+
+    .progress-checkbox.checked {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #ffffff;
+    }
+
+    .progress-checkbox i {
+      font-size: 11px;
+      opacity: 0;
+    }
+
+    .progress-checkbox.checked i {
+      opacity: 1;
+    }
+
+    /* Strict Quiz Section */
+    .quiz-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 32px;
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 12px;
+    }
+
+    .quiz-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .quiz-question {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-option-btn {
+      padding: 12px 16px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--text-color);
+      text-align: left;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+
+    .quiz-option-btn:hover {
+      border-color: var(--text-muted);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      aside.sidebar {
+        transform: translateX(-100%);
+        display: none;
+      }
+      main.main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- THEME TOGGLE IN HUB -->
+  <button class="hub-theme-toggle" id="hubThemeToggle" onclick="toggleTheme()">
+    <i class="fa-solid fa-moon"></i> <span>Koyu Mod</span>
+  </button>
+
+  <!-- HUB VIEW -->
+  <div class="hub-container" id="hubView">
+    <div class="hub-header">
+      <h1 class="hub-title">Ders Çalışma Portalı</h1>
+      <p class="hub-subtitle">Sistem Analizi ve Kriz Yönetimi ders çalışma notları. İlerleme takibi ve sınav hazırlığı için geliştirilmiş sade çalışma arayüzü.</p>
+    </div>
+
+    <div class="courses-grid">
+      <!-- Course 1: Sistem Analizi -->
+      <div class="course-card" onclick="openSubjectWorkspace('sistem_analizi')">
+        <div class="course-header">
+          <div class="course-icon-wrapper">
+            <i class="fa-solid fa-code-fork"></i>
+          </div>
+          <div>
+            <h2 class="course-title">Sistem Analizi ve Tasarımı</h2>
+          </div>
+        </div>
+        <p class="course-desc">SGYD aşamaları, analist rolleri, fizibilite araştırmaları, modelleme (E-R & Use Case) ve test/sistem dönüşümü yöntemleri.</p>
+        
+        <div class="course-stats">
+          <span><i class="fa-solid fa-layer-group"></i> 7 Bölüm</span>
+          <span><i class="fa-solid fa-list-check"></i> Sınav Kartları</span>
+          <span><i class="fa-solid fa-circle-question"></i> Mini Test</span>
+        </div>
+
+        <div class="course-progress-container" onclick="event.stopPropagation()">
+          <div class="progress-label-bar">
+            <span>İlerleme Oranı</span>
+            <span id="progress-val-sistem_analizi">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill-sistem_analizi"></div>
+          </div>
+        </div>
+
+        <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+
+      <!-- Course 2: Kriz Yönetimi -->
+      <div class="course-card" onclick="openSubjectWorkspace('kriz_yonetimi')">
+        <div class="course-header">
+          <div class="course-icon-wrapper">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h2 class="course-title">Kriz Yönetimi</h2>
+          </div>
+        </div>
+        <p class="course-desc">Kriz sürecinin aşamaları, yanıt süreçleri, sosyal medya krizi yönetimi, stres yönetimi ve detaylı vaka analizleri.</p>
+        
+        <div class="course-stats">
+          <span><i class="fa-solid fa-layer-group"></i> 10 Bölüm</span>
+          <span><i class="fa-solid fa-list-check"></i> Sınav Kartları</span>
+          <span><i class="fa-solid fa-circle-question"></i> Mini Test</span>
+        </div>
+
+        <div class="course-progress-container" onclick="event.stopPropagation()">
+          <div class="progress-label-bar">
+            <span>İlerleme Oranı</span>
+            <span id="progress-val-kriz_yonetimi">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill-kriz_yonetimi"></div>
+          </div>
+        </div>
+
+        <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDY WORKSPACE VIEW -->
+  <div class="workspace-wrapper" id="workspaceView">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <button class="back-btn" onclick="backToHub()">
+          <i class="fa-solid fa-arrow-left"></i> Tüm Dersler
+        </button>
+        
+        <div class="brand">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span id="sidebarSubjectTitle">Ders Notu</span>
+        </div>
+        
+        <ul class="nav-menu">
+          <li class="nav-item active" id="menu-notlar" onclick="switchTab('notlar')">
+            <i class="fa-solid fa-file-lines"></i>
+            Ders Notları
+          </li>
+          <li class="nav-item" id="menu-study" onclick="switchTab('study')">
+            <i class="fa-solid fa-bookmark"></i>
+            Sınav Kartları
+          </li>
+          <li class="nav-item" id="menu-quiz" onclick="switchTab('quiz')">
+            <i class="fa-solid fa-clipboard-question"></i>
+            Bilgi Sınama (Test)
+          </li>
+        </ul>
+        
+        <div class="sidebar-theme-toggle" onclick="toggleTheme()">
+          <i class="fa-solid fa-moon"></i>&nbsp;&nbsp;<span>Koyu Mod</span>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Reading Content Column -->
+        <div class="reading-col">
+          <!-- Top Bar with Search -->
+          <div class="top-bar">
+            <div class="search-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" class="search-input" id="searchBox" placeholder="Notlar içinde ara..." oninput="handleSearch()">
+            </div>
+          </div>
+
+          <!-- Stats Dashboard -->
+          <div class="stats-container" id="workspaceStats">
+            <div class="stat-card">
+              <div class="stat-info">
+                <h4>Bölüm Sayısı</h4>
+                <p id="totalSections">0</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <h4>Kritik Konu</h4>
+                <p id="totalCritical">0</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-info">
+                <h4>Tamamlanma Oranı</h4>
+                <p id="completedRatio">0%</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Notepad -->
+          <div id="content-notlar" class="tab-content">
+            <div class="notes-viewer">
+              <div id="notesContainer" class="markdown-body">
+                <!-- Dynamic Markdown Contents will load here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Study Cards -->
+          <div id="content-study" class="tab-content" style="display: none;">
+            <div class="study-grid" id="studyGrid">
+              <!-- Dynamic Flashcards -->
+            </div>
+          </div>
+
+          <!-- Tab: Quiz -->
+          <div id="content-quiz" class="tab-content" style="display: none;">
+            <div class="quiz-card">
+              <div class="quiz-header">
+                <span class="quiz-title" id="quizHeaderSub">Soru 1 / 3</span>
+                <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">Pratik Testi</span>
+              </div>
+              <div class="quiz-question" id="qText">Soru yükleniyor...</div>
+              <div class="quiz-options" id="qOptions"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar TOC Column -->
+        <div class="toc-col" id="tocCol">
+          <span class="toc-title">Bu Sayfadakiler</span>
+          <ul class="toc-list" id="tocContainer">
+            <!-- Dynamic Table of Contents Jumps -->
+          </ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Load data file containing note strings -->
+  <script src="notlar_data.js"></script>
+  
+  <script>
+    let currentSubject = 'sistem_analizi';
+    let currentTab = 'notlar';
+    let progressData = JSON.parse(localStorage.getItem('study_progress') || '{}');
+
+    // Safe markdown compiler/parser generating high-readability HTML with flat style alerts
+    function parseMarkdown(mdText) {
+      if (!mdText) return "";
+      
+      const lines = mdText.split('\n');
+      let html = "";
+      let inTable = false;
+      let tableHeader = true;
+      let inList = false;
+      let inCode = false;
+      let inSection = false;
+      let inAlert = false;
+      let inBlockquote = false;
+      let currentSectionIndex = 0;
+
+      lines.forEach((line) => {
+        // Code block toggle
+        if (line.trim().startsWith('```')) {
+          inCode = !inCode;
+          if (inCode) {
+            // Close other block structures before entering code block
+            if (inTable) { html += '</table>'; inTable = false; }
+            if (inList) { html += '</ul>'; inList = false; }
+            if (inAlert) { html += '</div></div>'; inAlert = false; }
+            if (inBlockquote) { html += '</blockquote>'; inBlockquote = false; }
+            html += '<pre style="background: var(--card-bg); padding: 14px; border-radius: var(--border-radius); font-family: monospace; font-size: 13px; overflow-x: auto; margin-bottom: 20px; border: 1px solid var(--card-border); color: var(--text-color);">';
+          } else {
+            html += '</pre>';
+          }
+          return;
+        }
+
+        if (inCode) {
+          html += escapeHtml(line) + '\n';
+          return;
+        }
+
+        // If line is empty and we are inside structures, let's close them cleanly
+        if (line.trim() === '') {
+          if (inTable) { html += '</table>'; inTable = false; }
+          if (inList) { html += '</ul>'; inList = false; }
+          if (inAlert) { html += '</div></div>'; inAlert = false; }
+          if (inBlockquote) { html += '</blockquote>'; inBlockquote = false; }
+          return;
+        }
+
+        // Table management
+        if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+          // Close list or alert if open
+          if (inList) { html += '</ul>'; inList = false; }
+          if (inAlert) { html += '</div></div>'; inAlert = false; }
+          if (inBlockquote) { html += '</blockquote>'; inBlockquote = false; }
+
+          if (!inTable) {
+            inTable = true;
+            tableHeader = true;
+            html += '<table>';
+          }
+          
+          const cols = line.split('|').map(c => c.trim()).filter((c, idx, arr) => idx > 0 && idx < arr.length - 1);
+          
+          // Detect divider line (e.g. |---|---|)
+          if (line.includes('---')) {
+            tableHeader = false;
+            return;
+          }
+
+          html += '<tr>';
+          cols.forEach(col => {
+            if (tableHeader) {
+              html += `<th>${inlineParse(col)}</th>`;
+            } else {
+              html += `<td>${inlineParse(col)}</td>`;
+            }
+          });
+          html += '</tr>';
+          return;
+        } else {
+          if (inTable) {
+            inTable = false;
+            html += '</table>';
+          }
+        }
+
+        // Alert Boxes & Blockquotes State Management
+        if (line.trim().startsWith('>')) {
+          // Close table or list if open
+          if (inTable) { html += '</table>'; inTable = false; }
+          if (inList) { html += '</ul>'; inList = false; }
+
+          if (line.trim().startsWith('> [!')) {
+            // Start of a new Alert Box
+            if (inAlert) { html += '</div></div>'; }
+            if (inBlockquote) { html += '</blockquote>'; inBlockquote = false; }
+            
+            const type = line.toLowerCase().includes('important') ? 'important' :
+                         line.toLowerCase().includes('tip') ? 'tip' :
+                         line.toLowerCase().includes('warning') ? 'warning' : 'caution';
+            const label = type === 'important' ? 'Önemli' :
+                          type === 'tip' ? 'İpucu' :
+                          type === 'warning' ? 'Uyarı' : 'Önlem';
+            
+            inAlert = true;
+            html += `<div class="alert ${type}"><div class="alert-title">${label}</div><div class="alert-content">`;
+            return;
+          } else {
+            // Continuation of Alert Box or Blockquote
+            const content = line.trim().substring(1).trim();
+            if (inAlert) {
+              html += `<p>${inlineParse(content)}</p>`;
+            } else {
+              if (!inBlockquote) {
+                inBlockquote = true;
+                html += '<blockquote>';
+              }
+              html += `<p>${inlineParse(content)}</p>`;
+            }
+            return;
+          }
+        } else {
+          // Line doesn't start with '>', close alert or blockquote if open
+          if (inAlert) { html += '</div></div>'; inAlert = false; }
+          if (inBlockquote) { html += '</blockquote>'; inBlockquote = false; }
+        }
+
+        // Lists
+        if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+          if (!inList) {
+            inList = true;
+            html += '<ul>';
+          }
+          html += `<li>${inlineParse(line.trim().substring(2))}</li>`;
+          return;
+        } else {
+          if (inList) {
+            inList = false;
+            html += '</ul>';
+          }
+        }
+
+        // Dividers
+        if (line.trim() === '---') {
+          html += '<hr style="border: 0; height: 1px; background: var(--card-border); margin: 24px 0;">';
+          return;
+        }
+
+        // Headers with Checkboxes for progress tracking
+        const h1Match = line.match(/^# (.*)/);
+        const h2Match = line.match(/^## (.*)/);
+        const h3Match = line.match(/^### (.*)/);
+
+        if (h1Match) {
+          if (inSection) {
+            html += '</div></div>';
+            inSection = false;
+          }
+          html += `<h1>${inlineParse(h1Match[1])}</h1>`;
+        } else if (h2Match) {
+          const rawTitle = h2Match[1];
+          const titleText = inlineParse(rawTitle);
+          const sectionId = `${currentSubject}_sec_${currentSectionIndex++}`;
+          const isChecked = progressData[sectionId] ? 'checked' : '';
+          
+          if (inSection) {
+            html += '</div></div>';
+          }
+          inSection = true;
+          
+          html += `
+            <div class="section-wrapper" id="wrap_${sectionId}">
+              <div class="section-title-bar">
+                <h2 id="header_${sectionId}">${titleText}</h2>
+                <div class="progress-checkbox ${isChecked}" onclick="toggleSectionProgress('${sectionId}', event)">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+              </div>
+              <div class="section-content" id="content_${sectionId}">
+          `;
+        } else if (h3Match) {
+          html += `<h3>${inlineParse(h3Match[1])}</h3>`;
+        } 
+        // Paragraphs
+        else if (line.trim().length > 0) {
+          html += `<p>${inlineParse(line)}</p>`;
+        }
+      });
+
+      // Cleanup remaining open structures at EOF
+      if (inTable) html += '</table>';
+      if (inList) html += '</ul>';
+      if (inAlert) html += '</div></div>';
+      if (inBlockquote) html += '</blockquote>';
+      if (inSection) html += '</div></div>';
+
+      return html;
+    }
+
+    // Replace raw emojis with high-contrast text badges
+    function inlineParse(text) {
+      // Bold
+      text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      // Replace ⭐ and 🔥 with tags
+      text = text.replace(/⭐/g, '<span class="tag tag-exam">Sınav Sorusu</span>');
+      text = text.replace(/🔥/g, '<span class="tag tag-critical">Kritik Konu</span>');
+      return text;
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Navigation and state switching
+    function openSubjectWorkspace(subject) {
+      currentSubject = subject;
+      document.getElementById('hubView').style.display = 'none';
+      document.getElementById('hubThemeToggle').style.display = 'none';
+      document.getElementById('workspaceView').style.display = 'block';
+      
+      const titleSpan = document.getElementById('sidebarSubjectTitle');
+      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : 'Kriz Yönetimi';
+
+      switchTab('notlar');
+      updateStats();
+    }
+
+    function backToHub() {
+      document.getElementById('workspaceView').style.display = 'none';
+      document.getElementById('hubView').style.display = 'flex';
+      document.getElementById('hubThemeToggle').style.display = 'flex';
+      updateHubProgressBars();
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      
+      // Update top buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeTabBtn = document.getElementById(`tab-${tab}`);
+      if(activeTabBtn) activeTabBtn.classList.add('active');
+
+      // Update sidebar menu
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      const activeMenuItem = document.getElementById(`menu-${tab}`);
+      if(activeMenuItem) activeMenuItem.classList.add('active');
+
+      // Toggle content columns
+      document.getElementById('content-notlar').style.display = tab === 'notlar' ? 'block' : 'none';
+      document.getElementById('content-study').style.display = tab === 'study' ? 'block' : 'none';
+      document.getElementById('content-quiz').style.display = tab === 'quiz' ? 'block' : 'none';
+      document.getElementById('tocCol').style.display = tab === 'notlar' ? 'block' : 'none';
+      document.getElementById('workspaceStats').style.display = tab === 'quiz' ? 'none' : 'grid';
+
+      if (tab === 'notlar') {
+        renderNotes();
+        generateTOC();
+      } else if (tab === 'study') {
+        renderStudyCards();
+      } else if (tab === 'quiz') {
+        startQuiz();
+      }
+    }
+
+    // Render markdown notes
+    function renderNotes() {
+      const container = document.getElementById('notesContainer');
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : KRIZ_YONETIMI_MD;
+      container.innerHTML = parseMarkdown(mdContent);
+    }
+
+    // Generate dynamic sidebar table of contents
+    function generateTOC() {
+      const tocContainer = document.getElementById('tocContainer');
+      tocContainer.innerHTML = "";
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : KRIZ_YONETIMI_MD;
+      
+      const lines = mdContent.split('\n');
+      let sectionIndex = 0;
+
+      lines.forEach(line => {
+        const h2Match = line.match(/^## (.*)/);
+        if (h2Match) {
+          const rawTitle = h2Match[1];
+          const cleanTitle = rawTitle.replace(/⭐|🔥/g, '').trim();
+          const targetId = `header_${currentSubject}_sec_${sectionIndex++}`;
+          
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.className = 'toc-link';
+          a.innerText = cleanTitle;
+          a.onclick = () => {
+            const el = document.getElementById(targetId);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          };
+          li.appendChild(a);
+          tocContainer.appendChild(li);
+        }
+      });
+    }
+
+    // Render flat Study Cards
+    function renderStudyCards() {
+      const grid = document.getElementById('studyGrid');
+      grid.innerHTML = "";
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : KRIZ_YONETIMI_MD;
+      const lines = mdContent.split('\n');
+      
+      let count = 0;
+      lines.forEach(line => {
+        if (line.includes('⭐') || line.includes('🔥')) {
+          const type = line.includes('🔥') ? 'Kritik Konu' : 'Sınav Sorusu';
+          const badgeClass = line.includes('🔥') ? 'tag-critical' : 'tag-exam';
+          
+          const card = document.createElement('div');
+          card.className = 'study-card';
+          card.innerHTML = `
+            <div class="study-card-header">
+              <span class="tag ${badgeClass}">${type}</span>
+            </div>
+            <div class="study-content">
+              ${inlineParse(line.trim().replace(/^-\s*/, '').replace(/^\*\s*/, ''))}
+            </div>
+            <div class="study-source">
+              ${currentSubject === 'sistem_analizi' ? 'Sistem Analizi ve Tasarımı' : 'Kriz Yönetimi'}
+            </div>
+          `;
+          grid.appendChild(card);
+          count++;
+        }
+      });
+
+      if (count === 0) {
+        grid.innerHTML = "<p style='color: var(--text-muted); grid-column: 1/-1; padding: 24px; text-align: center;'>Kayıtlı çalışma kartı bulunmamaktadır.</p>";
+      }
+    }
+
+    // Toggle read checkpoint
+    function toggleSectionProgress(sectionId, event) {
+      event.stopPropagation();
+      const checkbox = event.currentTarget;
+      const isChecked = checkbox.classList.toggle('checked');
+      progressData[sectionId] = isChecked;
+      localStorage.setItem('study_progress', JSON.stringify(progressData));
+      updateStats();
+    }
+
+    // Update read progression stats
+    function updateStats() {
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : KRIZ_YONETIMI_MD;
+      
+      const totalSec = (mdContent.match(/^## /gm) || []).length;
+      document.getElementById('totalSections').innerText = totalSec;
+
+      const criticalCount = (mdContent.match(/⭐|🔥/g) || []).length;
+      document.getElementById('totalCritical').innerText = criticalCount;
+
+      let completedCount = 0;
+      for (let i = 0; i < totalSec; i++) {
+        if (progressData[`${currentSubject}_sec_${i}`]) {
+          completedCount++;
+        }
+      }
+      
+      const ratio = totalSec > 0 ? Math.round((completedCount / totalSec) * 100) : 0;
+      document.getElementById('completedRatio').innerText = `${ratio}%`;
+    }
+
+    function updateHubProgressBars() {
+      ['sistem_analizi', 'kriz_yonetimi'].forEach(subj => {
+        const mdContent = subj === 'sistem_analizi' ? SISTEM_ANALIZI_MD : KRIZ_YONETIMI_MD;
+        const totalSec = (mdContent.match(/^## /gm) || []).length;
+        
+        let completedCount = 0;
+        for (let i = 0; i < totalSec; i++) {
+          if (progressData[`${subj}_sec_${i}`]) {
+            completedCount++;
+          }
+        }
+        const ratio = totalSec > 0 ? Math.round((completedCount / totalSec) * 100) : 0;
+        document.getElementById(`progress-val-${subj}`).innerText = `${ratio}%`;
+        document.getElementById(`progress-fill-${subj}`).style.width = `${ratio}%`;
+      });
+    }
+
+    // Search and Highlight filtering
+    function handleSearch() {
+      const query = document.getElementById('searchBox').value.toLowerCase().trim();
+      const container = document.getElementById('notesContainer');
+      
+      if (!query) {
+        renderNotes();
+        return;
+      }
+
+      renderNotes();
+      
+      const textElements = container.querySelectorAll('p, li, td, th, h2, h3, blockquote');
+      textElements.forEach(el => {
+        const text = el.innerText;
+        if (text.toLowerCase().includes(query)) {
+          const regex = new RegExp(`(${query})`, 'gi');
+          el.innerHTML = el.innerHTML.replace(regex, '<mark>$1</mark>');
+        }
+      });
+    }
+
+    // Clean theme toggle switcher
+    function toggleTheme() {
+      const body = document.body;
+      const currentTheme = body.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
+      
+      const sideToggle = document.querySelector('.sidebar-theme-toggle span');
+      const sideIcon = document.querySelector('.sidebar-theme-toggle i');
+      const hubToggle = document.querySelector('.hub-theme-toggle span');
+      const hubIcon = document.querySelector('.hub-theme-toggle i');
+      
+      const themeText = newTheme === 'light' ? 'Aydınlık Mod' : 'Koyu Mod';
+      const themeIconClass = newTheme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+
+      if(sideToggle) sideToggle.innerText = themeText;
+      if(sideIcon) sideIcon.className = themeIconClass;
+      if(hubToggle) hubToggle.innerText = themeText;
+      if(hubIcon) hubIcon.className = themeIconClass;
+    }
+
+    // Flat Static Quiz Logic
+    const quizPool = {
+      sistem_analizi: [
+        {
+          q: "Sistem Hiyerarşisi (büyükten küçüğe) hangi sırada yer alır?",
+          options: [
+            "Süper Sistem > Supra Sistem > Sistem > Alt Sistem",
+            "Supra Sistem > Süper Sistem > Alt Sistem > Sistem",
+            "Sistem > Süper Sistem > Supra Sistem > Alt Sistem"
+          ],
+          a: 0
+        },
+        {
+          q: "Sistem Analistinin temel rolleri hangisinde doğru listelenmiştir?",
+          options: [
+            "Programcı, Tasarımcı, Test Uzmanı",
+            "Danışman, Destekleyici Uzman, Değişim Ajanı",
+            "Yönetici, Lider, Koordinatör"
+          ],
+          a: 1
+        },
+        {
+          q: "Semptomların ötesinde bir sistemdeki kök nedeni bulmak için kullanılan temel teknik nedir?",
+          options: [
+            "Kök Neden Analizi (5 Kez Neden Sorusu)",
+            "Waterfall Yaşam Döngüsü",
+            "Ishikawa Balık Kılçığı Şeması"
+          ],
+          a: 0
+        }
+      ],
+      kriz_yonetimi: [
+        {
+          q: "Krizin en temel 3 niteliği/özelliği nedir?",
+          options: [
+            "Tehdit unsuru, Zaman baskısı, Sürpriz/Belirsizlik",
+            "Stres faktörleri, İletişim kaybı, Panik hali",
+            "Maddi kayıplar, İtibar hasarı, Kaotik işleyiş"
+          ],
+          a: 0
+        },
+        {
+          q: "Kriz Sürecinin 5 ana aşaması sırasıyla nasıldır?",
+          options: [
+            "Kriz Öncesi -> Kriz Dönemi -> Kriz Sonrası",
+            "Sinyal Alma -> Hazırlık/Önleme -> Krizi Sınırlama -> İyileşme -> Öğrenme",
+            "Panik -> Müdahale -> İyileşme -> Raporlama"
+          ],
+          a: 1
+        }
+      ]
+    };
+
+    let activeQuestions = [];
+    let currentQuizIndex = 0;
+
+    function startQuiz() {
+      const pool = quizPool[currentSubject];
+      activeQuestions = [...pool];
+      currentQuizIndex = 0;
+      showQuizQuestion();
+    }
+
+    function showQuizQuestion() {
+      if (currentQuizIndex >= activeQuestions.length) {
+        document.getElementById('qText').innerText = "Tebrikler! Testi tamamladınız.";
+        document.getElementById('qOptions').innerHTML = `
+          <button class="quiz-option-btn" onclick="startQuiz()" style="text-align: center; font-weight:600;">Testi Yeniden Başlat</button>
+        `;
+        document.getElementById('quizHeaderSub').innerText = "Sonuç";
+        return;
+      }
+
+      const currentQ = activeQuestions[currentQuizIndex];
+      document.getElementById('quizHeaderSub').innerText = `Soru ${currentQuizIndex + 1} / ${activeQuestions.length}`;
+      document.getElementById('qText').innerText = currentQ.q;
+      
+      const optContainer = document.getElementById('qOptions');
+      optContainer.innerHTML = "";
+
+      currentQ.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => checkQuizAnswer(idx, btn);
+        optContainer.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(selectedIdx, btnEl) {
+      const correctIdx = activeQuestions[currentQuizIndex].a;
+      const allButtons = document.querySelectorAll('.quiz-option-btn');
+      
+      allButtons.forEach(btn => btn.disabled = true);
+
+      if (selectedIdx === correctIdx) {
+        btnEl.style.background = "rgba(34, 197, 94, 0.1)";
+        btnEl.style.borderColor = "var(--success-color)";
+        setTimeout(() => {
+          currentQuizIndex++;
+          showQuizQuestion();
+        }, 1000);
+      } else {
+        btnEl.style.background = "rgba(239, 68, 68, 0.1)";
+        btnEl.style.borderColor = "var(--danger-color)";
+        allButtons[correctIdx].style.background = "rgba(34, 197, 94, 0.1)";
+        allButtons[correctIdx].style.borderColor = "var(--success-color)";
+        setTimeout(() => {
+          currentQuizIndex++;
+          showQuizQuestion();
+        }, 1500);
+      }
+    }
+
+    // Initial load updates
+    window.onload = () => {
+      updateHubProgressBars();
+    };
+  </script>
+</body>
+</html>
