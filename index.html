@@ -1120,6 +1120,36 @@
 
         <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
       </div>
+      <!-- Course 4: Üretim Yönetimi -->
+      <div class="course-card" onclick="openSubjectWorkspace('uretim_yonetimi')">
+        <div class="course-header">
+          <div class="course-icon-wrapper">
+            <i class="fa-solid fa-industry"></i>
+          </div>
+          <div>
+            <h2 class="course-title">Üretim Yönetimi</h2>
+          </div>
+        </div>
+        <p class="course-desc">Endüstri 4.0, ERP, MRP, APS sistemleri, girdi-çıktı süreçleri ve süreç yönetimi özellikleri.</p>
+        
+        <div class="course-stats">
+          <span><i class="fa-solid fa-layer-group"></i> 4 Bölüm</span>
+          <span><i class="fa-solid fa-list-check"></i> Sınav Kartları</span>
+          <span><i class="fa-solid fa-circle-question"></i> Mini Test</span>
+        </div>
+
+        <div class="course-progress-container" onclick="event.stopPropagation()">
+          <div class="progress-label-bar">
+            <span>İlerleme Oranı</span>
+            <span id="progress-val-uretim_yonetimi">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill-uretim_yonetimi"></div>
+          </div>
+        </div>
+
+        <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
     </div>
   </div>
 
@@ -1458,7 +1488,7 @@
       document.getElementById('workspaceView').style.display = 'block';
       
       const titleSpan = document.getElementById('sidebarSubjectTitle');
-      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : (subject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : 'Siber Güvenlik');
+      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : (subject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : (subject === 'uretim_yonetimi' ? 'Üretim Yönetimi' : 'Siber Güvenlik'));
 
       switchTab('notlar');
       updateStats();
@@ -1504,7 +1534,7 @@
     // Render markdown notes
     function renderNotes() {
       const container = document.getElementById('notesContainer');
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : SIBER_GUVENLIK_MD));
       container.innerHTML = parseMarkdown(mdContent);
     }
 
@@ -1512,7 +1542,7 @@
     function generateTOC() {
       const tocContainer = document.getElementById('tocContainer');
       tocContainer.innerHTML = "";
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : SIBER_GUVENLIK_MD));
       
       const lines = mdContent.split('\n');
       let sectionIndex = 0;
@@ -1544,7 +1574,7 @@
     function renderStudyCards() {
       const grid = document.getElementById('studyGrid');
       grid.innerHTML = "";
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : SIBER_GUVENLIK_MD));
       const lines = mdContent.split('\n');
       
       let count = 0;
@@ -1564,7 +1594,7 @@
             </div>
             <div class="study-source">
               ${currentSubject === 'sistem_analizi' ? 'Sistem Analizi ve Tasarımı' : 
-                (currentSubject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : 'Siber Güvenlik')}
+                (currentSubject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : (currentSubject === 'uretim_yonetimi' ? 'Üretim Yönetimi' : 'Siber Güvenlik'))}
             </div>
           `;
           grid.appendChild(card);
@@ -1589,7 +1619,7 @@
 
     // Update read progression stats
     function updateStats() {
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : SIBER_GUVENLIK_MD));
       
       const totalSec = (mdContent.match(/^## /gm) || []).length;
       document.getElementById('totalSections').innerText = totalSec;
@@ -1609,9 +1639,9 @@
     }
 
     function updateHubProgressBars() {
-      ['sistem_analizi', 'kriz_yonetimi', 'siber_guvenlik'].forEach(subj => {
+      ['sistem_analizi', 'kriz_yonetimi', 'siber_guvenlik', 'uretim_yonetimi'].forEach(subj => {
         const mdContent = subj === 'sistem_analizi' ? SISTEM_ANALIZI_MD : 
-                          (subj === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+                          (subj === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (subj === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : SIBER_GUVENLIK_MD));
         const totalSec = (mdContent.match(/^## /gm) || []).length;
         
         let completedCount = 0;
@@ -1745,6 +1775,26 @@
             "Grover Algoritması",
             "Shor Algoritması",
             "BB84 Protokolü"
+          ],
+          a: 1
+        }
+      ],
+      uretim_yonetimi: [
+        {
+          q: "Üretim planlama sürecine çözüm bulmak amacıyla simülasyon ve optimizasyon yöntemlerini kullanan, kapasite kısıtlarını dikkate alan bilgisayar programı hangisidir?",
+          options: [
+            "ERP (Kurumsal Kaynak Planlama)",
+            "APS (Gelişmiş Planlama ve Çizelgeleme)",
+            "MRP (Malzeme İhtiyaç Planlaması)"
+          ],
+          a: 1
+        },
+        {
+          q: "Endüstri 4.0'ın üretim yönetimindeki hedeflerinden biri aşağıdakilerden hangisidir?",
+          options: [
+            "Büyük miktarlarda tek tip üretim yapmak",
+            "İnsan emeğini azaltarak hataları önlemek ve yüksek esneklik sağlamak",
+            "ERP sistemlerini tamamen ortadan kaldırmak"
           ],
           a: 1
         }
