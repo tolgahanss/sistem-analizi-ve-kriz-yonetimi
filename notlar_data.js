@@ -241,4 +241,5 @@ const SAGLIK_MD = `# 📚 SAĞLIK VE FONKSİYONEL YAŞAM — DETAYLI SINAV NOTLA
 
 ---
 *Çalışma portalındaki "Sağlık ve Fonksiyonel Yaşam" sekmesinden tüm notlara interaktif olarak ulaşıp ilerlemenizi kaydedebilirsiniz.* 🚀
+`;
 
