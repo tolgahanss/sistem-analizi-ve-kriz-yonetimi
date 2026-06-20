@@ -1120,6 +1120,36 @@
 
         <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
       </div>
+      <!-- Course 4: Sağlık ve Fonksiyonel Yaşam -->
+      <div class="course-card" onclick="openSubjectWorkspace('saglik')">
+        <div class="course-header">
+          <div class="course-icon-wrapper">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <div>
+            <h2 class="course-title">Sağlık ve Fonksiyonel Yaşam</h2>
+          </div>
+        </div>
+        <p class="course-desc">Uyku ve sirkadiyen ritim, solunum fizyolojisi, fiziksel aktivite, soleus şınavı, bağırsak sağlığı ve mindful eating.</p>
+        
+        <div class="course-stats">
+          <span><i class="fa-solid fa-layer-group"></i> 4 Bölüm</span>
+          <span><i class="fa-solid fa-list-check"></i> Sınav Kartları</span>
+          <span><i class="fa-solid fa-circle-question"></i> Mini Test</span>
+        </div>
+
+        <div class="course-progress-container" onclick="event.stopPropagation()">
+          <div class="progress-label-bar">
+            <span>İlerleme Oranı</span>
+            <span id="progress-val-saglik">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill-saglik"></div>
+          </div>
+        </div>
+
+        <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
     </div>
   </div>
 
@@ -1458,7 +1488,7 @@
       document.getElementById('workspaceView').style.display = 'block';
       
       const titleSpan = document.getElementById('sidebarSubjectTitle');
-      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : (subject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : 'Siber Güvenlik');
+      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : (subject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : (subject === 'uretim_yonetimi' ? 'Üretim Yönetimi' : (subject === 'siber_guvenlik' ? 'Siber Güvenlik' : 'Sağlık ve Fonksiyonel Yaşam')));
 
       switchTab('notlar');
       updateStats();
@@ -1504,7 +1534,7 @@
     // Render markdown notes
     function renderNotes() {
       const container = document.getElementById('notesContainer');
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
       container.innerHTML = parseMarkdown(mdContent);
     }
 
@@ -1512,7 +1542,7 @@
     function generateTOC() {
       const tocContainer = document.getElementById('tocContainer');
       tocContainer.innerHTML = "";
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
       
       const lines = mdContent.split('\n');
       let sectionIndex = 0;
@@ -1544,7 +1574,7 @@
     function renderStudyCards() {
       const grid = document.getElementById('studyGrid');
       grid.innerHTML = "";
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
       const lines = mdContent.split('\n');
       
       let count = 0;
@@ -1564,7 +1594,7 @@
             </div>
             <div class="study-source">
               ${currentSubject === 'sistem_analizi' ? 'Sistem Analizi ve Tasarımı' : 
-                (currentSubject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : 'Siber Güvenlik')}
+                (currentSubject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : (currentSubject === 'uretim_yonetimi' ? 'Üretim Yönetimi' : (currentSubject === 'siber_guvenlik' ? 'Siber Güvenlik' : 'Sağlık ve Fonksiyonel Yaşam')))}
             </div>
           `;
           grid.appendChild(card);
@@ -1589,7 +1619,7 @@
 
     // Update read progression stats
     function updateStats() {
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
       
       const totalSec = (mdContent.match(/^## /gm) || []).length;
       document.getElementById('totalSections').innerText = totalSec;
@@ -1609,9 +1639,9 @@
     }
 
     function updateHubProgressBars() {
-      ['sistem_analizi', 'kriz_yonetimi', 'siber_guvenlik'].forEach(subj => {
+      ['sistem_analizi', 'kriz_yonetimi', 'siber_guvenlik', 'uretim_yonetimi', 'saglik'].forEach(subj => {
         const mdContent = subj === 'sistem_analizi' ? SISTEM_ANALIZI_MD : 
-                          (subj === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : SIBER_GUVENLIK_MD);
+                          (subj === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (subj === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (subj === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
         const totalSec = (mdContent.match(/^## /gm) || []).length;
         
         let completedCount = 0;
@@ -1621,8 +1651,10 @@
           }
         }
         const ratio = totalSec > 0 ? Math.round((completedCount / totalSec) * 100) : 0;
-        document.getElementById(`progress-val-${subj}`).innerText = `${ratio}%`;
-        document.getElementById(`progress-fill-${subj}`).style.width = `${ratio}%`;
+        const valEl = document.getElementById(`progress-val-${subj}`);
+        const fillEl = document.getElementById(`progress-fill-${subj}`);
+        if (valEl) valEl.innerText = `${ratio}%`;
+        if (fillEl) fillEl.style.width = `${ratio}%`;
       });
     }
 
@@ -1747,6 +1779,35 @@
             "BB84 Protokolü"
           ],
           a: 1
+        }
+      ],
+      saglik: [
+        {
+          q: "Uykuda beyin temizlik faaliyetlerini (glimfatik sistem) yürüten en ideal yatış pozisyonu hangisidir?",
+          options: [
+            "Sırt üstü",
+            "Yan yatış",
+            "Yüz üstü"
+          ],
+          a: 1
+        },
+        {
+          q: "Bohr etkisi gereğince, kanın oksijeni hücrelere teslim edebilmesi için kanda hangi gazın belirli bir seviyede bulunması zorunludur?",
+          options: [
+            "Karbondioksit (CO2)",
+            "Azot (N2)",
+            "Helyum (He)"
+          ],
+          a: 0
+        },
+        {
+          q: "Otururken topukları kaldırıp indirme şeklinde yapılan, laktik asit biriktirmeyen ve kandan doğrudan şeker/yağ çeken kas hangisidir?",
+          options: [
+            "Quadriceps kası",
+            "Biceps kası",
+            "Soleus kası"
+          ],
+          a: 2
         }
       ]
     };
