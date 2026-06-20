@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Analizi — 50 Soruluk Etkileşimli Sınav Testi</title>
+  <meta name="description" content="Sistem Analizi ve Tasarımı dersi için 50 soruluk etkileşimli öğretici sınav testi. Anında geri bildirim, açıklamalar ve ilerleme takibi.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #09090b;
+      --card-bg: #18181b;
+      --card-border: #27272a;
+      --text-color: #fafafa;
+      --text-muted: #a1a1aa;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --danger-color: #ef4444;
+      --success-color: #22c55e;
+      --warning-color: #f59e0b;
+      --border-radius: 6px;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #ffffff;
+      --card-bg: #f4f4f5;
+      --card-border: #e4e4e7;
+      --text-color: #09090b;
+      --text-muted: #71717a;
+      --accent-color: #2563eb;
+      --accent-hover: #1d4ed8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--card-border) transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== TOP NAV ===== */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    [data-theme="light"] .top-nav {
+      background: rgba(255,255,255,0.85);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-brand i { color: var(--accent-color); }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--card-border);
+    }
+
+    .nav-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      padding: 6px 14px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--text-muted);
+      background: var(--card-bg);
+    }
+
+    /* ===== LANDING / START SCREEN ===== */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .landing-screen {
+      padding-top: 96px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .landing-screen.active {
+      display: flex;
+    }
+
+    .landing-hero {
+      text-align: center;
+      max-width: 640px;
+      padding: 0 24px;
+    }
+
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 32px;
+      color: #fff;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero-title {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text-color), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent-color);
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    .mode-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .mode-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .mode-card:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    .mode-card-icon {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+    }
+
+    .mode-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .mode-card-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== QUIZ SCREEN ===== */
+    .quiz-screen {
+      padding-top: 72px;
+      max-width: 780px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+      padding-bottom: 80px;
+    }
+
+    /* Progress Bar */
+    .quiz-progress-bar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-border);
+      z-index: 999;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-color), #8b5cf6);
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Question Header */
+    .question-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .question-counter {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .question-counter span {
+      color: var(--accent-color);
+      font-size: 18px;
+    }
+
+    .question-topic {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 4px 10px;
+      border-radius: var(--border-radius);
+    }
+
+    .score-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .score-live .correct { color: var(--success-color); }
+    .score-live .wrong { color: var(--danger-color); }
+
+    /* Question Card */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-text {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Options */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      background: transparent;
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
+      transition: all 0.2s ease;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .option-btn:hover:not(.disabled) {
+      border-color: var(--accent-color);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover:not(.disabled) .option-letter {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent-color);
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .option-btn.selected .option-letter {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .option-btn.correct {
+      border-color: var(--success-color);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .option-btn.correct .option-letter {
+      background: var(--success-color);
+      border-color: var(--success-color);
+      color: #fff;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger-color);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .option-btn.wrong .option-letter {
+      background: var(--danger-color);
+      border-color: var(--danger-color);
+      color: #fff;
+    }
+
+    .option-btn.disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    .option-btn.correct.disabled,
+    .option-btn.wrong.disabled {
+      opacity: 1;
+    }
+
+    /* Explanation Box */
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-radius: var(--border-radius);
+      font-size: 14px;
+      line-height: 1.7;
+      animation: fadeIn 0.3s ease;
+      display: none;
+    }
+
+    .explanation-box.show { display: block; }
+
+    .explanation-box.correct-exp {
+      background: rgba(34, 197, 94, 0.06);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .explanation-box.wrong-exp {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .explanation-box.correct-exp .explanation-title { color: var(--success-color); }
+    .explanation-box.wrong-exp .explanation-title { color: var(--danger-color); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Navigation Buttons */
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quiz-btn {
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .quiz-btn:hover {
+      border-color: var(--text-muted);
+    }
+
+    .quiz-btn.primary {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #fff;
+    }
+
+    .quiz-btn.primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .quiz-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Question Navigator */
+    .question-nav-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 24px;
+      padding: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+    }
+
+    .q-nav-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .q-nav-dot:hover { border-color: var(--text-muted); }
+    .q-nav-dot.current { border-color: var(--accent-color); color: var(--accent-color); background: rgba(59,130,246,0.08); }
+    .q-nav-dot.answered-correct { background: rgba(34,197,94,0.15); border-color: var(--success-color); color: var(--success-color); }
+    .q-nav-dot.answered-wrong { background: rgba(239,68,68,0.15); border-color: var(--danger-color); color: var(--danger-color); }
+
+    /* ===== RESULTS SCREEN ===== */
+    .results-screen {
+      padding-top: 96px;
+      max-width: 700px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+      padding-bottom: 80px;
+    }
+
+    .results-screen.active { display: block; }
+
+    .results-hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .results-score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .results-score-circle svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 140px;
+      height: 140px;
+      transform: rotate(-90deg);
+    }
+
+    .results-score-circle circle {
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+    }
+
+    .circle-bg { stroke: var(--card-border); }
+
+    .circle-progress {
+      stroke: var(--accent-color);
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .results-score-value {
+      font-size: 36px;
+      font-weight: 800;
+      z-index: 1;
+    }
+
+    .results-score-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      z-index: 1;
+    }
+
+    .results-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .results-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .results-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .result-stat {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .result-stat-val {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .result-stat-val.green { color: var(--success-color); }
+    .result-stat-val.red { color: var(--danger-color); }
+    .result-stat-val.blue { color: var(--accent-color); }
+
+    .result-stat-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    /* Topic Breakdown */
+    .topic-breakdown {
+      margin-bottom: 32px;
+    }
+
+    .topic-breakdown-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .topic-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      margin-bottom: 8px;
+    }
+
+    .topic-name {
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 180px;
+    }
+
+    .topic-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: var(--card-border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .topic-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease;
+    }
+
+    .topic-percent {
+      font-size: 13px;
+      font-weight: 700;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* Review List */
+    .review-section {
+      margin-bottom: 32px;
+    }
+
+    .review-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .review-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .review-item:hover { border-color: var(--text-muted); }
+
+    .review-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .review-q-text {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .review-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+
+    .review-badge.correct-badge {
+      background: rgba(34,197,94,0.1);
+      color: var(--success-color);
+      border: 1px solid rgba(34,197,94,0.2);
+    }
+
+    .review-badge.wrong-badge {
+      background: rgba(239,68,68,0.1);
+      color: var(--danger-color);
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+
+    .review-detail {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .review-item.open .review-detail { display: block; }
+
+    .review-answer-line {
+      margin-bottom: 4px;
+    }
+
+    .review-answer-line .label-inline {
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .results-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Timer */
+    .timer-display {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .timer-display i { color: var(--warning-color); }
+
+    /* Confetti */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hero-title { font-size: 26px; }
+      .mode-cards { grid-template-columns: 1fr; }
+      .results-stats-grid { grid-template-columns: 1fr; }
+      .question-card { padding: 20px; }
+      .question-text { font-size: 16px; }
+      .topic-name { min-width: 120px; font-size: 12px; }
+      .hero-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav class="top-nav" id="topNav">
+    <div class="nav-left">
+      <div class="nav-brand"><i class="fas fa-graduation-cap"></i> Sistem Analizi</div>
+      <div class="nav-divider"></div>
+      <span class="nav-label" id="navLabel">Sınav Testi</span>
+    </div>
+    <div class="nav-right">
+      <div class="timer-display" id="timerDisplay" style="display:none;">
+        <i class="fas fa-clock"></i>
+        <span id="timerValue">00:00</span>
+      </div>
+      <button class="nav-btn" id="themeToggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i> Tema
+      </button>
+      <button class="nav-btn" id="homeBtn" onclick="goHome()" style="display:none;">
+        <i class="fas fa-home"></i> Ana Sayfa
+      </button>
+    </div>
+  </nav>
+
+  <!-- PROGRESS BAR -->
+  <div class="quiz-progress-bar" id="progressBar" style="display:none;">
+    <div class="quiz-progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- ===== LANDING SCREEN ===== -->
+  <div class="screen landing-screen active" id="landingScreen">
+    <div class="landing-hero">
+      <div class="hero-icon"><i class="fas fa-brain"></i></div>
+      <h1 class="hero-title">Sistem Analizi Sınav Testi</h1>
+      <p class="hero-subtitle">
+        50 soruluk öğretici test ile sınava hazırlan. Anında geri bildirim, detaylı açıklamalar ve konu bazlı analiz ile eksiklerini keşfet.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value">50</div>
+          <div class="hero-stat-label">Soru</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">7</div>
+          <div class="hero-stat-label">Bölüm</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">∞</div>
+          <div class="hero-stat-label">Tekrar</div>
+        </div>
+      </div>
+
+      <div class="mode-cards">
+        <div class="mode-card" onclick="startQuiz('learn')">
+          <div class="mode-card-icon"><i class="fas fa-book-open"></i></div>
+          <div class="mode-card-title">Öğrenme Modu</div>
+          <div class="mode-card-desc">Her soruda anında geri bildirim ve detaylı açıklama. Süre sınırı yok.</div>
+        </div>
+        <div class="mode-card" onclick="startQuiz('exam')">
+          <div class="mode-card-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="mode-card-title">Sınav Modu</div>
+          <div class="mode-card-desc">50 dakika süre sınırı. Sonunda toplu sonuç ve analiz.</div>
+        </div>
+        <div class="mode-card" onclick="startQuiz('random')">
+          <div class="mode-card-icon"><i class="fas fa-random"></i></div>
+          <div class="mode-card-title">Karışık Mod</div>
+          <div class="mode-card-desc">Sorular karışık sırada. Anında geri bildirim ile çalış.</div>
+        </div>
+        <div class="mode-card" onclick="startQuiz('wrong')">
+          <div class="mode-card-icon"><i class="fas fa-redo"></i></div>
+          <div class="mode-card-title">Yanlışları Tekrarla</div>
+          <div class="mode-card-desc">Sadece son turda yanlış yaptığın soruları tekrar çöz.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div class="screen quiz-screen" id="quizScreen">
+    <div class="question-meta">
+      <div class="question-counter">Soru <span id="currentNum">1</span> / <span id="totalNum">50</span></div>
+      <div class="question-topic" id="questionTopic">Bölüm 1</div>
+      <div class="score-live">
+        <span class="correct"><i class="fas fa-check"></i> <span id="liveCorrect">0</span></span>
+        <span class="wrong"><i class="fas fa-times"></i> <span id="liveWrong">0</span></span>
+      </div>
+    </div>
+
+    <div class="question-card" id="questionCard">
+      <div class="question-text" id="questionText"></div>
+      <div class="options-list" id="optionsList"></div>
+      <div class="explanation-box" id="explanationBox">
+        <div class="explanation-title" id="explanationTitle"></div>
+        <div id="explanationContent"></div>
+      </div>
+    </div>
+
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="prevBtn" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Önceki</button>
+      <button class="quiz-btn primary" id="nextBtn" onclick="nextQuestion()">Sonraki <i class="fas fa-arrow-right"></i></button>
+      <button class="quiz-btn primary" id="finishBtn" onclick="finishQuiz()" style="display:none;">Testi Bitir <i class="fas fa-flag-checkered"></i></button>
+    </div>
+
+    <div class="question-nav-grid" id="questionNavGrid"></div>
+  </div>
+
+  <!-- ===== RESULTS SCREEN ===== -->
+  <div class="screen results-screen" id="resultsScreen">
+    <div class="results-hero">
+      <div class="results-score-circle" id="scoreCircle">
+        <svg viewBox="0 0 140 140">
+          <circle class="circle-bg" cx="70" cy="70" r="62"></circle>
+          <circle class="circle-progress" id="circleProgress" cx="70" cy="70" r="62" 
+                  stroke-dasharray="389.56" stroke-dashoffset="389.56"></circle>
+        </svg>
+        <div class="results-score-value" id="scoreValue">0%</div>
+        <div class="results-score-label">BAŞARI</div>
+      </div>
+      <h2 class="results-title" id="resultsTitle">Sonuçlar</h2>
+      <p class="results-subtitle" id="resultsSubtitle"></p>
+    </div>
+
+    <div class="results-stats-grid">
+      <div class="result-stat">
+        <div class="result-stat-val green" id="totalCorrect">0</div>
+        <div class="result-stat-lbl">Doğru</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-val red" id="totalWrong">0</div>
+        <div class="result-stat-lbl">Yanlış</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-val blue" id="totalTime">0:00</div>
+        <div class="result-stat-lbl">Süre</div>
+      </div>
+    </div>
+
+    <div class="topic-breakdown" id="topicBreakdown">
+      <div class="topic-breakdown-title">Konu Bazlı Analiz</div>
+      <div id="topicRows"></div>
+    </div>
+
+    <div class="review-section" id="reviewSection">
+      <div class="review-section-title">Tüm Sorular</div>
+      <div id="reviewList"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="quiz-btn primary" onclick="startQuiz('wrong')"><i class="fas fa-redo"></i> Yanlışları Tekrarla</button>
+      <button class="quiz-btn" onclick="goHome()"><i class="fas fa-home"></i> Ana Sayfa</button>
+    </div>
+  </div>
+
+  <!-- CONFETTI CONTAINER -->
+  <div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+// ===========================
+// 50 QUESTIONS DATA
+// ===========================
+const allQuestions = [
+  // BÖLÜM 1: KAVRAM VE TANIMLAR
+  {
+    id: 1, topic: "Kavram ve Tanımlar",
+    question: "Belirli bir amaç doğrultusunda girdilere cevap olarak çıktı üreten, aralarında karşılıklı etkileşim olan elemanlar topluluğuna ne denir?",
+    options: ["Süreç", "Sistem", "Modül", "Alt Program"],
+    correct: 1,
+    explanation: "Sistem; belirli bir amaç doğrultusunda girdilere cevap olarak çıktı üreten, aralarında karşılıklı etkileşim olan elemanlar topluluğudur."
+  },
+  {
+    id: 2, topic: "Kavram ve Tanımlar",
+    question: "Sistem hiyerarşisinde doğru sıralama (büyükten küçüğe) hangisidir?",
+    options: ["Sistem > Supra Sistem > Süper Sistem > Alt Sistem", "Süper Sistem > Supra Sistem > Sistem > Alt Sistem", "Alt Sistem > Sistem > Supra Sistem > Süper Sistem", "Supra Sistem > Süper Sistem > Sistem > Alt Sistem"],
+    correct: 1,
+    explanation: "Sistem hiyerarşisi büyükten küçüğe: Süper Sistem > Supra Sistem > Sistem > Alt Sistem şeklindedir."
+  },
+  {
+    id: 3, topic: "Kavram ve Tanımlar",
+    question: "Çevresiyle etkileşimi olmayan veya sınırlı olan sisteme ne ad verilir?",
+    options: ["Açık Sistem", "Kapalı Sistem", "Sosyoteknik Sistem", "Teknik Sistem"],
+    correct: 1,
+    explanation: "Kapalı sistem, çevresiyle etkileşimi olmayan veya sınırlı olan sistemdir. Açık sistem ise çevresiyle sürekli etkileşim halindedir."
+  },
+  {
+    id: 4, topic: "Kavram ve Tanımlar",
+    question: "Sistem analistinin 3 ana rolü arasında hangisi YER ALMAZ?",
+    options: ["Danışman", "Programcı", "Destekleyici uzman", "Değişim ajanı"],
+    correct: 1,
+    explanation: "Sistem analistinin 3 ana rolü: 1) Danışman, 2) Destekleyici uzman, 3) Değişim ajanı'dır. Programcı rolü analistin değil, yazılım geliştiricinin görevidir."
+  },
+  {
+    id: 5, topic: "Kavram ve Tanımlar",
+    question: "Bir konuyu temel parçalarına ayırarak, parçaları ve aralarındaki ilişkileri tanımlayarak sonuca gitme yoluna ne denir?",
+    options: ["Tasarım", "Sentez", "Analiz", "Modelleme"],
+    correct: 2,
+    explanation: "Analiz, bir konuyu temel parçalarına ayırarak, parçaları ve aralarındaki ilişkileri tanımlayarak sonuca gitme yoludur. Bir bütünü parçalarına ayırarak ayrıntılı inceleme yapmaktır."
+  },
+  {
+    id: 6, topic: "Kavram ve Tanımlar",
+    question: "5 Kez Neden Tekniği ile ulaşılmak istenen nedir?",
+    options: ["Semptomlar", "Çözüm önerileri", "Kök neden", "Alternatif senaryolar"],
+    correct: 2,
+    explanation: "5 Kez Neden Tekniği, her cevaba tekrar 'Neden?' diye sorarak kök nedene ulaşmayı hedefler. Semptomları değil, kök nedeni çözmek gerekir."
+  },
+  {
+    id: 7, topic: "Kavram ve Tanımlar",
+    question: "Buzdağı modelinde en altta hangi seviye yer alır?",
+    options: ["Olaylar", "Trendler/Örüntüler", "Sistemin Yapısı", "Zihinsel Modeller"],
+    correct: 3,
+    explanation: "Buzdağı modelinde seviyeler üstten alta: Olaylar → Trendler/Örüntüler → Sistemin Yapısı → Zihinsel Modeller. En altta zihinsel modeller (tutumlar, inançlar, değerler) yer alır."
+  },
+  {
+    id: 8, topic: "Kavram ve Tanımlar",
+    question: "Use Case diyagramlarında 'Include' ilişkisi ne anlama gelir?",
+    options: ["Bazen yapılan opsiyonel işlem", "Her zaman yapılan ortak işlem", "Hiyerarşik ilişki", "Aktörü senaryoya bağlama"],
+    correct: 1,
+    explanation: "Include ilişkisi, birden fazla senaryoda ortak olan ve HER ZAMAN yapılan davranıştır. Extend ise bazen yapılan opsiyonel işlemdir. Bu ayrım sınavlarda çok sık sorulur!"
+  },
+  {
+    id: 9, topic: "Kavram ve Tanımlar",
+    question: "Varlık-İlişki (E-R) modelinde bir departmanın birden fazla çalışanı olması hangi ilişki türüdür?",
+    options: ["Bire-bir (1:1)", "Bire-çok (1:N)", "Çoka-çok (M:N)", "Bire-sıfır (1:0)"],
+    correct: 1,
+    explanation: "Departman → Çalışanlar ilişkisi Bire-çok (1:N) ilişkidir. Bir departmanda birden fazla çalışan olabilir, ancak bir çalışan genellikle bir departmana aittir."
+  },
+  {
+    id: 10, topic: "Kavram ve Tanımlar",
+    question: "Sistemin ne yaptığını açıklayan (nasıl çalıştığını DEĞİL) ve UML'in parçası olan modelleme tekniği hangisidir?",
+    options: ["Veri Akış Diyagramı (DFD)", "Kullanım Durumu Modellemesi (Use Case)", "Sınıf Diyagramı", "Gantt Şeması"],
+    correct: 1,
+    explanation: "Kullanım Durumu Modellemesi (Use Case), UML'in bir parçasıdır ve sistemin NE yaptığını açıklar, nasıl çalıştığını değil."
+  },
+  // BÖLÜM 2: BAŞLANGIÇ ARAŞTIRMA VE İNCELEME
+  {
+    id: 11, topic: "Araştırma ve İnceleme",
+    question: "SGYD'nin ilk aşamasında ne yapılır?",
+    options: ["Kodlama başlanır", "Sorunlar, fırsatlar ve hedefler tanımlanır", "Fizibilite raporu yazılır", "Dönüşüm stratejisi belirlenir"],
+    correct: 1,
+    explanation: "SGYD'nin ilk aşamasında (Başlangıç Araştırma-İnceleme) analist sorunları, fırsatları ve hedefleri doğru tanımlar. Projenin geri kalanının başarısı için kritik önem taşır."
+  },
+  {
+    id: 12, topic: "Araştırma ve İnceleme",
+    question: "Gereksinim yazımında hangi kural YANLIŞTIR?",
+    options: ["Kısa tutulmalıdır", "Her gereksinim tek başına test edilebilir olmalı", "Paragraf boyutunda ayrıntılı yazılmalıdır", "Tutarlı olmalı, kapsamın dışına çıkmamalıdır"],
+    correct: 2,
+    explanation: "Gereksinimler kısa tutulmalı ve paragraf boyutunda yazılmamalıdır. Ayrıca 've', 'veya', 'ki' bağlaçlarıyla birbirine bağlanmamalıdır."
+  },
+  {
+    id: 13, topic: "Araştırma ve İnceleme",
+    question: "En fazla kullanılan veri toplama aracı hangisidir?",
+    options: ["Yüz yüze görüşme", "Anket", "Gözlem", "Video kamera"],
+    correct: 1,
+    explanation: "Anket, en fazla kullanılan veri toplama aracıdır. Çok fazla insana uygulanması kolay olması en büyük avantajıdır."
+  },
+  {
+    id: 14, topic: "Araştırma ve İnceleme",
+    question: "Görüşme formlarının doğru sırası hangisidir?",
+    options: ["Yazılım → Sistem → Müşteri", "Sistem → Müşteri → Yazılım", "Müşteri → Sistem → Yazılım", "Müşteri → Yazılım → Sistem"],
+    correct: 2,
+    explanation: "Görüşme formlarının doğru sırası: 1) Müşteri Gereksinimleri Formu, 2) Sistem Gereksinimleri Formu, 3) Yazılım Gereksinimleri Formu."
+  },
+  {
+    id: 15, topic: "Araştırma ve İnceleme",
+    question: "Açık uçlu soruların en büyük dezavantajı nedir?",
+    options: ["Zengin içerik oluşturulamaz", "Konu dağılabilir ve kontrol kaybedilebilir", "Karşılaştırmaya imkan tanımaz", "Samimi cevap alınamaz"],
+    correct: 1,
+    explanation: "Açık uçlu soruların dezavantajı konunun dağılabilmesi ve kontrolün kaybedilebilmesidir. Avantajı ise ayrıntılı bilgi edinilmesi ve önceden bahsedilmemiş süreçlerin ortaya çıkabilmesidir."
+  },
+  // BÖLÜM 3: FİZİBİLİTE ANALİZİ
+  {
+    id: 16, topic: "Fizibilite Analizi",
+    question: "Fizibilite analizi hangi soruyu cevaplar?",
+    options: ["NASIL?", "NE?", "NE ZAMAN?", "KİM?"],
+    correct: 1,
+    explanation: "Fizibilite çalışması NE sorusunu cevaplar, Genel Tasarım ise NASIL sorusunu cevaplar. Bu ayrım sınav klasiklerindendir!"
+  },
+  {
+    id: 17, topic: "Fizibilite Analizi",
+    question: "Fizibilite analizinin 4 aşamasının doğru sırası hangisidir?",
+    options: ["Karar Verme → Veri Toplama → Veri Analizi → Rapor", "Veri Toplama → Veri Analizi → Karar Verme → Kapsamlı Rapor", "Rapor → Veri Toplama → Analiz → Karar", "Veri Analizi → Veri Toplama → Rapor → Karar"],
+    correct: 1,
+    explanation: "Fizibilite analizinin 4 aşaması sırasıyla: 1) Veri Toplama, 2) Veri Analizi, 3) Karar Verme, 4) Kapsamlı Rapor Hazırlama."
+  },
+  {
+    id: 18, topic: "Fizibilite Analizi",
+    question: "Hangisi fizibilite türlerinden biri DEĞİLDİR?",
+    options: ["Teknik fizibilite", "Ekonomik fizibilite", "Sosyal fizibilite", "Operasyonel fizibilite"],
+    correct: 2,
+    explanation: "Üç temel fizibilite türü: 1) Teknik Fizibilite (teknoloji uygun mu?), 2) Ekonomik Fizibilite (yatırım değerli mi?), 3) Operasyonel Fizibilite (çalışacak mı?). Sosyal fizibilite yoktur."
+  },
+  {
+    id: 19, topic: "Fizibilite Analizi",
+    question: "Operasyonel fizibilite hangi soruya cevap arar?",
+    options: ["Teknoloji uygun mu?", "Yatırım değerli mi?", "Sistem çalışacak mı? Kullanılacak mı?", "Ne kadar sürede tamamlanır?"],
+    correct: 2,
+    explanation: "Operasyonel fizibilite: Sistem kurulduktan sonra çalıştıracak insan kaynağı var mı? Kullanıcılar istemiyor mu? sorularını yanıtlar."
+  },
+  {
+    id: 20, topic: "Fizibilite Analizi",
+    question: "Örneklem büyüklüğü hesaplama formülünde kullanılan 3 temel parametre hangileridir?",
+    options: ["Evren, örneklem, denek", "Güven düzeyi, sapma toleransı, standart sapma", "Parametre, istatistik, öge", "Ortalama, medyan, mod"],
+    correct: 1,
+    explanation: "Örneklem büyüklüğü hesaplama formülündeki 3 parametre: 1) Güven düzeyi (t), 2) Kabul edilebilir sapma toleransı (d), 3) Evren için tahmin edilen standart sapma (s)."
+  },
+  {
+    id: 21, topic: "Fizibilite Analizi",
+    question: "Yapılandırılmış görüşmenin en belirgin özelliği nedir?",
+    options: ["Soruların önceden belirlenmemesi", "Tüm katılımcılara aynı sorular, aynı sırada, aynı biçimde sorulması", "Araştırmacının ortamdaki kişilerle serbest konuşması", "Katılımcının cevabına göre soruların şekillenmesi"],
+    correct: 1,
+    explanation: "Yapılandırılmış görüşmede kontrol düzeyi yüksektir. Tüm katılımcılara aynı sorular, aynı sırada, aynı biçimde sorulur."
+  },
+  {
+    id: 22, topic: "Fizibilite Analizi",
+    question: "Katılımcı gözlem ile doğrudan gözlem arasındaki fark nedir?",
+    options: ["Katılımcı gözlemde araştırmacı ortama dahil olur; doğrudan gözlemde dışarıdan izler", "İkisi arasında fark yoktur", "Doğrudan gözlemde araştırmacı ortama dahil olur", "Katılımcı gözlemde video kamera kullanılır"],
+    correct: 0,
+    explanation: "Katılımcı gözlemde araştırmacı ortamın içine girer ve yaşama katılır. Doğrudan gözlemde ise dışarıdan izler ve ortamın doğal üyesi değildir."
+  },
+  // BÖLÜM 4: GENEL TASARIM
+  {
+    id: 23, topic: "Genel Tasarım",
+    question: "SGYD aşamalarının doğru sırası hangisidir?",
+    options: ["Fizibilite → Başlangıç → Tasarım → Test → Gerçekleştirme", "Başlangıç → Fizibilite → Genel Tasarım → Ayrıntılı Tasarım → Gerçekleştirme → Test → Uygulama", "Tasarım → Analiz → Kodlama → Test → Uygulama", "Başlangıç → Kodlama → Test → Tasarım → Fizibilite"],
+    correct: 1,
+    explanation: "SGYD aşamaları sırasıyla: 1) Başlangıç Araştırma-İnceleme, 2) Fizibilite, 3) Genel Tasarım, 4) Ayrıntılı Tasarım, 5) Gerçekleştirme, 6) Test, 7) Uygulama ve Değerlendirme."
+  },
+  {
+    id: 24, topic: "Genel Tasarım",
+    question: "Genel tasarım aşaması hangi soruyu cevaplar?",
+    options: ["NE?", "NASIL?", "NE ZAMAN?", "NEDEN?"],
+    correct: 1,
+    explanation: "Fizibilite = NE?, Genel Tasarım = NASIL? Bu sınavlarda çok klasik bir sorudur. Genel tasarım, sistemin NASIL gerçekleştirileceğini belirler."
+  },
+  {
+    id: 25, topic: "Genel Tasarım",
+    question: "Şelale (Waterfall) modelinin en belirgin özelliği nedir?",
+    options: ["Aşamalar paralel yürütülür", "Bir aşama tamamlanmadan diğerine geçilmez", "Prototip oluşturulur", "İteratif geri dönüşler yapılır"],
+    correct: 1,
+    explanation: "Şelale modelinde aşamalar sıra ile adım adım gerçekleştirilir. Bir aşama tamamlanmadan diğerine geçilmez. En geleneksel modeldir."
+  },
+  {
+    id: 26, topic: "Genel Tasarım",
+    question: "Paralel Geliştirme modelinin temel özelliği nedir?",
+    options: ["Prototip oluşturulup atılır", "Tasarım aşamasından itibaren birkaç parçaya ayrılır", "Fazlar halinde sıralı ilerlenir", "Tek bir hat üzerinde ilerler"],
+    correct: 1,
+    explanation: "Paralel Geliştirme modelinde tasarım aşamasından itibaren proje birkaç parçaya ayrılır ve bu parçalar birbirine paralel şekilde ilerler."
+  },
+  {
+    id: 27, topic: "Genel Tasarım",
+    question: "Çevik (Agile) yöntemin 4 değerinden biri hangisidir?",
+    options: ["Hız", "Cesaret", "Verimlilik", "Otomasyon"],
+    correct: 1,
+    explanation: "Çevik yöntemin 4 değeri: 1) İletişim, 2) Basitlik, 3) Geri bildirim, 4) Cesaret. Hız, verimlilik ve otomasyon bu değerler arasında yer almaz."
+  },
+  {
+    id: 28, topic: "Genel Tasarım",
+    question: "Pareto İlkesine (80/20 Kuralı) göre bir sorunun %80'i, nedenlerin yüzde kaçından kaynaklanır?",
+    options: ["%80", "%50", "%20", "%10"],
+    correct: 2,
+    explanation: "Pareto İlkesi (80/20 Kuralı): Bir sorunun %80'i nedenlerin %20'sinden kaynaklanır. Juran bunu 'yaşamsal azınlık ve yararlı çoklar' olarak ifade etmiştir."
+  },
+  {
+    id: 29, topic: "Genel Tasarım",
+    question: "Çevik metodolojide 4 kaynak kontrol değişkeni nelerdir?",
+    options: ["Zaman, Maliyet, Kalite, Odak", "Hız, Güç, Esneklik, Ölçek", "Planlama, Analiz, Tasarım, Test", "Girdi, Süreç, Çıktı, Geri besleme"],
+    correct: 0,
+    explanation: "Çevik yöntemin 4 kaynak kontrol değişkeni: 1) Zaman, 2) Maliyet, 3) Kalite, 4) Odak."
+  },
+  {
+    id: 30, topic: "Genel Tasarım",
+    question: "Nesne Tabanlı (OO) yaklaşım ne zaman kullanılır?",
+    options: ["Mevcut sistemler SGYD ile belgelenmiş ve her adımı belgelemek önemli olduğunda", "Problemler değişik sınıflardan kaynaklanıyor ve yazılım yeniden kullanımı mümkün olduğunda", "Dinamik çevre nedeniyle çok hızlı geliştirme gerekli olduğunda", "Basit ve küçük projelerde"],
+    correct: 1,
+    explanation: "OO yaklaşım: Problemler değişik sınıflardan kaynaklanıyor, firma UML kullanıyor, sistemler kademeli yapılanmış ve yazılım yeniden kullanımı mümkün olduğunda tercih edilir."
+  },
+  // BÖLÜM 5: DETAYLI PLANLAMA VE PROJE YÖNETİMİ
+  {
+    id: 31, topic: "Proje Yönetimi",
+    question: "Üç Nokta Tahmini formülü hangisidir?",
+    options: ["(a + b + m) / 3", "(a + 4m + b) / 6", "(a + 2m + b) / 4", "(a + m + b) / 3"],
+    correct: 1,
+    explanation: "Üç Nokta Tahmini Formülü: (a + 4m + b) / 6. Burada a = en iyi (iyimser), m = en olası, b = en kötü (kötümser) tahmindir."
+  },
+  {
+    id: 32, topic: "Proje Yönetimi",
+    question: "Bir yazılım modülü için: En iyi tahmin 8 gün, En olası 10 gün, En kötü 30 gün. Ağırlıklı ortalama kaç gündür?",
+    options: ["16 gün", "13 gün", "15 gün", "12 gün"],
+    correct: 1,
+    explanation: "Formül: (a + 4m + b) / 6 = (8 + 4×10 + 30) / 6 = (8 + 40 + 30) / 6 = 78/6 = 13 gün."
+  },
+  {
+    id: 33, topic: "Proje Yönetimi",
+    question: "EVM'de (Kazanılmış Değer Yönetimi) BAC ne anlama gelir?",
+    options: ["Planlanan Değer", "Gerçek Maliyet", "Kazanılmış Değer", "Projenin toplam bütçesi"],
+    correct: 3,
+    explanation: "BAC (Budget at Completion) = Projenin toplam bütçesi. Diğerleri: PV = Planlanan Değer, AC = Gerçek Maliyet, EV = Kazanılmış Değer."
+  },
+  {
+    id: 34, topic: "Proje Yönetimi",
+    question: "İş Kırılım Yapısı (WBS) nedir?",
+    options: ["Maliyet hesaplama yöntemi", "Projenin daha küçük görevlere/faaliyetlere bölünmesi", "Test stratejisi", "Kalite kontrol aracı"],
+    correct: 1,
+    explanation: "WBS (Work Breakdown Structure), projenin daha küçük görevlere/faaliyetlere bölünmesidir. Her görev somut bir sonuç içerir ve tek bir kişi/gruba atanabilir."
+  },
+  {
+    id: 35, topic: "Proje Yönetimi",
+    question: "Balık Kılçığı Diyagramının diğer adları nelerdir?",
+    options: ["PERT Diyagramı ve Gantt Şeması", "Neden-Sonuç Diyagramı ve Ishikawa Diyagramı", "Pareto Diyagramı ve WBS", "UML Diyagramı ve Akış Şeması"],
+    correct: 1,
+    explanation: "Balık Kılçığı Diyagramı'nın diğer adları: Neden-Sonuç Diyagramı ve Ishikawa Diyagramı'dır. Meydana gelebilecek tüm olası sorunları sistematik olarak listeler."
+  },
+  {
+    id: 36, topic: "Proje Yönetimi",
+    question: "PERT diyagramının en önemli avantajı nedir?",
+    options: ["Basit ve anlaşılır olması", "Son kullanıcı iletişimine uygun olması", "Kritik yolun ve gevşek zamanın kolay belirlenmesi", "Maliyet tahmini yapması"],
+    correct: 2,
+    explanation: "PERT diyagramının avantajları: Öncelik sırasının kolay belirlenmesi, kritik yolun ve kritik faaliyetlerin tanımlanması, gevşek zamanın (slack time) kolay hesaplanması."
+  },
+  {
+    id: 37, topic: "Proje Yönetimi",
+    question: "Aşağıdan yukarıya (Bottom-Up) maliyet tahmin yaklaşımının özelliği nedir?",
+    options: ["Benzer projelere dayalı tahmin yapılır", "Her ekip üyesi kendi faaliyetinin maliyetini tahmin eder", "Parametre bazlı tahmin yapılır", "Sadece yöneticiler tahmin yapar"],
+    correct: 1,
+    explanation: "Bottom-Up yaklaşımda her ekip üyesi kendi faaliyetinin maliyetini tahmin eder. Uzun sürer ama daha detaylıdır. Top-Down ise benzer projelere dayalı tahmindir."
+  },
+  {
+    id: 38, topic: "Proje Yönetimi",
+    question: "Görev lideri ve sosyo-duygusal lider arasındaki fark nedir?",
+    options: ["İkisi aynı şeydir", "Görev lideri görevlere odaklanır; sosyo-duygusal lider sosyal ilişkilerle ilgilenir", "Sosyo-duygusal lider görevlere odaklanır", "Görev lideri dışarıdan, sosyo-duygusal lider içeriden gelir"],
+    correct: 1,
+    explanation: "Görev Lideri: Üyeleri görevleri tamamlamaya yönlendirir. Sosyo-duygusal Lider: Sosyal ilişkilerle ilgilenir, ekip uyumunu sağlar."
+  },
+  // BÖLÜM 6: GERÇEKLEŞTİRME
+  {
+    id: 39, topic: "Gerçekleştirme",
+    question: "Kodlama aşamasında analistin görevlerinden biri hangisidir?",
+    options: ["Kod yazmak", "Programcılar arasında eşgüdüm sağlamak", "Veritabanını kurmak", "Sunucu yapılandırmak"],
+    correct: 1,
+    explanation: "Kodlama aşamasında analist: Programcılar arasında eşgüdüm sağlar, arayüz/veritabanı/ağ şemaları hakkında bilgilendirir ve eğitim toplantıları yapar."
+  },
+  {
+    id: 40, topic: "Gerçekleştirme",
+    question: "Birim testi (Unit Test) hangi test türü olarak uygulanır?",
+    options: ["Kara kutu (Black Box) testi", "Saydam kutu (White Box) testi", "Kabul testi (UAT)", "Stres testi"],
+    correct: 1,
+    explanation: "Birim testi, yazılım tasarımının en küçük birimi olan modül üzerinde uygulanır ve saydam kutu (White Box) testi olarak gerçekleştirilir."
+  },
+  {
+    id: 41, topic: "Gerçekleştirme",
+    question: "Doğrudan geçiş (Direct Changeover) dönüşüm stratejisinin en büyük dezavantajı nedir?",
+    options: ["Yavaş geçiş", "Yüksek riskli yaklaşım", "İş yükünün iki katına çıkması", "Uygulama süresinin uzaması"],
+    correct: 1,
+    explanation: "Doğrudan geçişin en büyük dezavantajı yüksek riskli yaklaşım olmasıdır. Hızlı ve maliyet etkin olmakla birlikte, kapsamlı test ihtiyacı ve sonuç karşılaştırma zorluğu vardır."
+  },
+  {
+    id: 42, topic: "Gerçekleştirme",
+    question: "Paralel dönüşümün en büyük dezavantajı nedir?",
+    options: ["Riskli olması", "Yavaş olması", "İş yükünün iki katına çıkması", "Veri karşılaştırma yapılamaması"],
+    correct: 2,
+    explanation: "Paralel dönüşümde eski ve yeni sistem eş zamanlı çalışır. En büyük dezavantajı iş yükünün iki katına çıkmasıdır, ancak veri karşılaştırma imkanı sunar."
+  },
+  {
+    id: 43, topic: "Gerçekleştirme",
+    question: "Kademeli/aşamalı dönüşüm hangi metodolojiye uygundur?",
+    options: ["Şelale", "Çevik (Agile)", "Nesne tabanlı", "Paralel geliştirme"],
+    correct: 1,
+    explanation: "Kademeli dönüşüm → Çevik metodolojilere uygun. Modüler prototip dönüşümü → Nesneye yönelik metodolojilere uygun. Bu eşleştirme sık sorulan bir detaydır!"
+  },
+  {
+    id: 44, topic: "Gerçekleştirme",
+    question: "Modüler prototip dönüşümü hangi metodolojiye uygundur?",
+    options: ["Çevik", "Nesneye yönelik (OO)", "Şelale", "Fazlandırılmış"],
+    correct: 1,
+    explanation: "Modüler prototip dönüşümü nesneye yönelik (OO) metodolojilere uygundur. Her modül ayrı test edilir ve kullanıma sunulur."
+  },
+  {
+    id: 45, topic: "Gerçekleştirme",
+    question: "Dokümantasyonun büyük kısmını kim hazırlar?",
+    options: ["Programcı", "Kullanıcı", "Analist", "Proje yöneticisi"],
+    correct: 2,
+    explanation: "Dokümantasyonun büyük kısmı analist tarafından hazırlanır. Dokümantasyon aslında yazılım bittikten sonra değil, tüm aşamalarda yapılır."
+  },
+  // BÖLÜM 7: TEST VE DEĞERLENDİRME
+  {
+    id: 46, topic: "Test ve Değerlendirme",
+    question: "Test sürecinin doğru sırası hangisidir?",
+    options: ["Canlı veri testi → Sistem testi → Bağlantı testi → Program testi", "Program testi → Bağlantı testi → Tam sistem testi → Canlı verilerle tam sistem testi", "Bağlantı testi → Program testi → Sistem testi → Canlı veri testi", "Kabul testi → Sistem testi → Birim testi → Entegrasyon testi"],
+    correct: 1,
+    explanation: "Test süreci sırasıyla: 1) Test verileriyle program testi, 2) Test verileriyle bağlantı/dize testi, 3) Test verileriyle tam sistem testi, 4) Canlı verilerle tam sistem testi."
+  },
+  {
+    id: 47, topic: "Test ve Değerlendirme",
+    question: "Black Box (Siyah Kutu) testinde test uzmanı neyi bilmez?",
+    options: ["Girdi verilerini", "Çıktı verilerini", "Yazılımın iç kod yapısını", "Kullanıcı gereksinimlerini"],
+    correct: 2,
+    explanation: "Black Box testinde yazılımın iç bileşenleri hesaba katılmadan, sadece girdi ve çıktılar değerlendirilir. Test uzmanı kodun iç yapısını bilmez, dışarıdan bir saldırgan gözüyle izler."
+  },
+  {
+    id: 48, topic: "Test ve Değerlendirme",
+    question: "Kullanıcı Kabul Testini (UAT) kim yapar?",
+    options: ["Geliştiriciler", "Analistler", "Bağımsız teknik uzmanlar", "Kullanıcılar"],
+    correct: 3,
+    explanation: "Kullanıcı Kabul Testi (UAT), kullanıcının kendi yerinde, kendi verileriyle yaptığı testtir. Gerçek kullanıcılar test eder."
+  },
+  {
+    id: 49, topic: "Test ve Değerlendirme",
+    question: "Güvenlik kaygılarından 'mantıksal güvenlik' neyi ifade eder?",
+    options: ["Bilgisayar tesisi ve ekipmanın fiziksel güvenliği", "Yazılımın kendisindeki mantıksal kontroller", "Donanım/yazılımın kötüye kullanımını önleyen prosedürler", "Ağ güvenlik duvarları"],
+    correct: 1,
+    explanation: "3 tür güvenlik kaygısı: 1) Fiziksel Güvenlik (ekipman), 2) Mantıksal Güvenlik (yazılımdaki kontroller), 3) Davranışsal Güvenlik (kötüye kullanımı önleyen prosedürler)."
+  },
+  {
+    id: 50, topic: "Test ve Değerlendirme",
+    question: "Regresyon (gerileme) testinin amacı nedir?",
+    options: ["Yeni eklenen modüllerin performansını ölçmek", "Değişikliklerin mevcut işlevi bozmamasını kontrol etmek", "Kullanıcı arayüzünü test etmek", "Güvenlik açıklarını bulmak"],
+    correct: 1,
+    explanation: "Regresyon testi, yapılan değişikliklerin mevcut çalışan işlevselliği bozup bozmadığını kontrol eder. Otomatik test araçları yaygın olarak kullanılır."
+  }
+];
+
+// ===========================
+// STATE
+// ===========================
+let state = {
+  mode: 'learn',
+  currentIndex: 0,
+  questions: [],
+  answers: {},       // { questionId: selectedOptionIndex }
+  results: {},       // { questionId: true/false }
+  startTime: null,
+  timerInterval: null,
+  elapsedSeconds: 0,
+  wrongQuestions: JSON.parse(localStorage.getItem('sa_wrongQuestions') || '[]')
+};
+
+// ===========================
+// THEME
+// ===========================
+function toggleTheme() {
+  const body = document.body;
+  const current = body.getAttribute('data-theme');
+  if (current === 'light') {
+    body.removeAttribute('data-theme');
+    document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i> Tema';
+    localStorage.setItem('sa_theme', 'dark');
+  } else {
+    body.setAttribute('data-theme', 'light');
+    document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i> Tema';
+    localStorage.setItem('sa_theme', 'light');
+  }
+}
+
+// Load saved theme
+if (localStorage.getItem('sa_theme') === 'light') {
+  document.body.setAttribute('data-theme', 'light');
+  document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i> Tema';
+}
+
+// ===========================
+// SCREENS
+// ===========================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() {
+  clearInterval(state.timerInterval);
+  document.getElementById('timerDisplay').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('homeBtn').style.display = 'none';
+  document.getElementById('navLabel').textContent = 'Sınav Testi';
+  showScreen('landingScreen');
+}
+
+// ===========================
+// START QUIZ
+// ===========================
+function startQuiz(mode) {
+  state.mode = mode;
+  state.currentIndex = 0;
+  state.answers = {};
+  state.results = {};
+  state.elapsedSeconds = 0;
+  clearInterval(state.timerInterval);
+
+  // Select questions
+  if (mode === 'wrong') {
+    if (state.wrongQuestions.length === 0) {
+      alert('Henüz yanlış cevapladığın soru yok! Önce başka bir modda çöz.');
+      return;
+    }
+    state.questions = allQuestions.filter(q => state.wrongQuestions.includes(q.id));
+  } else if (mode === 'random') {
+    state.questions = shuffleArray([...allQuestions]);
+  } else {
+    state.questions = [...allQuestions];
+  }
+
+  // Setup UI
+  document.getElementById('totalNum').textContent = state.questions.length;
+  document.getElementById('homeBtn').style.display = 'flex';
+  document.getElementById('progressBar').style.display = 'block';
+
+  if (mode === 'exam') {
+    document.getElementById('navLabel').textContent = 'Sınav Modu — 50 Dakika';
+    document.getElementById('timerDisplay').style.display = 'flex';
+    startTimer(50 * 60); // 50 minutes
+  } else if (mode === 'learn') {
+    document.getElementById('navLabel').textContent = 'Öğrenme Modu';
+    document.getElementById('timerDisplay').style.display = 'flex';
+    startTimer(0, true); // Count up
+  } else if (mode === 'random') {
+    document.getElementById('navLabel').textContent = 'Karışık Mod';
+    document.getElementById('timerDisplay').style.display = 'flex';
+    startTimer(0, true);
+  } else {
+    document.getElementById('navLabel').textContent = 'Yanlışları Tekrarla';
+    document.getElementById('timerDisplay').style.display = 'flex';
+    startTimer(0, true);
+  }
+
+  state.startTime = Date.now();
+
+  // Build nav grid
+  buildNavGrid();
+
+  showScreen('quizScreen');
+  renderQuestion();
+}
+
+// ===========================
+// TIMER
+// ===========================
+function startTimer(totalSeconds, countUp = false) {
+  clearInterval(state.timerInterval);
+  let remaining = totalSeconds;
+
+  const updateDisplay = () => {
+    let displaySeconds;
+    if (countUp) {
+      displaySeconds = state.elapsedSeconds;
+    } else {
+      displaySeconds = remaining;
+    }
+    const mins = Math.floor(displaySeconds / 60);
+    const secs = displaySeconds % 60;
+    document.getElementById('timerValue').textContent =
+      `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  };
+
+  updateDisplay();
+  state.timerInterval = setInterval(() => {
+    state.elapsedSeconds++;
+    if (countUp) {
+      updateDisplay();
+    } else {
+      remaining--;
+      updateDisplay();
+      if (remaining <= 0) {
+        clearInterval(state.timerInterval);
+        finishQuiz();
+      }
+    }
+  }, 1000);
+}
+
+// ===========================
+// RENDER QUESTION
+// ===========================
+function renderQuestion() {
+  const q = state.questions[state.currentIndex];
+  const questionCard = document.getElementById('questionCard');
+  questionCard.style.animation = 'none';
+  requestAnimationFrame(() => {
+    questionCard.style.animation = 'slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+  });
+
+  document.getElementById('currentNum').textContent = state.currentIndex + 1;
+  document.getElementById('questionText').textContent = q.question;
+  document.getElementById('questionTopic').textContent = q.topic;
+
+  // Update live score
+  const correctCount = Object.values(state.results).filter(v => v === true).length;
+  const wrongCount = Object.values(state.results).filter(v => v === false).length;
+  document.getElementById('liveCorrect').textContent = correctCount;
+  document.getElementById('liveWrong').textContent = wrongCount;
+
+  // Progress bar
+  const progress = ((state.currentIndex + 1) / state.questions.length) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+
+  // Options
+  const optionsList = document.getElementById('optionsList');
+  const letters = ['A', 'B', 'C', 'D'];
+  optionsList.innerHTML = '';
+
+  const answered = state.answers[q.id] !== undefined;
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    if (answered) btn.classList.add('disabled');
+
+    if (answered) {
+      if (idx === q.correct) {
+        btn.classList.add('correct');
+      } else if (idx === state.answers[q.id] && idx !== q.correct) {
+        btn.classList.add('wrong');
+      }
+    } else if (state.mode === 'exam' && state.answers[q.id] === idx) {
+      btn.classList.add('selected');
+    }
+
+    btn.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(idx);
+    optionsList.appendChild(btn);
+  });
+
+  // Explanation
+  const expBox = document.getElementById('explanationBox');
+  if (answered && state.mode !== 'exam') {
+    expBox.classList.add('show');
+    const isCorrect = state.results[q.id];
+    expBox.className = 'explanation-box show ' + (isCorrect ? 'correct-exp' : 'wrong-exp');
+    document.getElementById('explanationTitle').innerHTML = isCorrect
+      ? '<i class="fas fa-check-circle"></i> Doğru Cevap!'
+      : '<i class="fas fa-times-circle"></i> Yanlış Cevap';
+    document.getElementById('explanationContent').textContent = q.explanation;
+  } else {
+    expBox.classList.remove('show');
+  }
+
+  // Nav buttons
+  document.getElementById('prevBtn').disabled = state.currentIndex === 0;
+
+  if (state.currentIndex === state.questions.length - 1) {
+    document.getElementById('nextBtn').style.display = 'none';
+    document.getElementById('finishBtn').style.display = 'flex';
+  } else {
+    document.getElementById('nextBtn').style.display = 'flex';
+    document.getElementById('finishBtn').style.display = 'none';
+  }
+
+  // Update nav grid
+  updateNavGrid();
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===========================
+// SELECT OPTION
+// ===========================
+function selectOption(idx) {
+  const q = state.questions[state.currentIndex];
+
+  if (state.answers[q.id] !== undefined && state.mode !== 'exam') return;
+
+  if (state.mode === 'exam') {
+    // In exam mode, just select (can change)
+    state.answers[q.id] = idx;
+    renderQuestion();
+    return;
+  }
+
+  // Learn / random / wrong mode: immediate feedback
+  state.answers[q.id] = idx;
+  state.results[q.id] = idx === q.correct;
+
+  renderQuestion();
+}
+
+// ===========================
+// NAVIGATION
+// ===========================
+function nextQuestion() {
+  if (state.currentIndex < state.questions.length - 1) {
+    state.currentIndex++;
+    renderQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (state.currentIndex > 0) {
+    state.currentIndex--;
+    renderQuestion();
+  }
+}
+
+function jumpToQuestion(idx) {
+  state.currentIndex = idx;
+  renderQuestion();
+}
+
+// ===========================
+// NAV GRID
+// ===========================
+function buildNavGrid() {
+  const grid = document.getElementById('questionNavGrid');
+  grid.innerHTML = '';
+  state.questions.forEach((q, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'q-nav-dot';
+    dot.textContent = i + 1;
+    dot.onclick = () => jumpToQuestion(i);
+    grid.appendChild(dot);
+  });
+}
+
+function updateNavGrid() {
+  const dots = document.querySelectorAll('.q-nav-dot');
+  dots.forEach((dot, i) => {
+    dot.className = 'q-nav-dot';
+    const q = state.questions[i];
+    if (i === state.currentIndex) dot.classList.add('current');
+    if (state.results[q.id] === true) dot.classList.add('answered-correct');
+    else if (state.results[q.id] === false) dot.classList.add('answered-wrong');
+    else if (state.mode === 'exam' && state.answers[q.id] !== undefined) dot.classList.add('current');
+  });
+}
+
+// ===========================
+// FINISH QUIZ
+// ===========================
+function finishQuiz() {
+  clearInterval(state.timerInterval);
+
+  // In exam mode, calculate results
+  if (state.mode === 'exam') {
+    state.questions.forEach(q => {
+      if (state.answers[q.id] !== undefined) {
+        state.results[q.id] = state.answers[q.id] === q.correct;
+      } else {
+        state.results[q.id] = false; // Unanswered = wrong
+      }
+    });
+  }
+
+  // Calculate stats
+  const total = state.questions.length;
+  const correctCount = Object.values(state.results).filter(v => v === true).length;
+  const wrongCount = total - correctCount;
+  const percentage = Math.round((correctCount / total) * 100);
+
+  // Save wrong questions
+  const wrongIds = state.questions.filter(q => state.results[q.id] === false).map(q => q.id);
+  state.wrongQuestions = wrongIds;
+  localStorage.setItem('sa_wrongQuestions', JSON.stringify(wrongIds));
+
+  // UI
+  document.getElementById('scoreValue').textContent = percentage + '%';
+  document.getElementById('totalCorrect').textContent = correctCount;
+  document.getElementById('totalWrong').textContent = wrongCount;
+
+  const mins = Math.floor(state.elapsedSeconds / 60);
+  const secs = state.elapsedSeconds % 60;
+  document.getElementById('totalTime').textContent = `${mins}:${String(secs).padStart(2, '0')}`;
+
+  // Score circle animation
+  const circumference = 2 * Math.PI * 62;
+  const offset = circumference - (percentage / 100) * circumference;
+  setTimeout(() => {
+    document.getElementById('circleProgress').style.strokeDashoffset = offset;
+    const circleEl = document.getElementById('circleProgress');
+    if (percentage >= 80) circleEl.style.stroke = 'var(--success-color)';
+    else if (percentage >= 50) circleEl.style.stroke = 'var(--warning-color)';
+    else circleEl.style.stroke = 'var(--danger-color)';
+  }, 100);
+
+  // Title based on score
+  if (percentage >= 90) {
+    document.getElementById('resultsTitle').textContent = '🏆 Mükemmel!';
+    document.getElementById('resultsSubtitle').textContent = 'Harika bir performans gösterdin! Sınava çok iyi hazırsın.';
+    launchConfetti();
+  } else if (percentage >= 70) {
+    document.getElementById('resultsTitle').textContent = '👏 Başarılı!';
+    document.getElementById('resultsSubtitle').textContent = 'İyi bir performans. Yanlışlarını tekrar ederek daha da güçlenebilirsin.';
+  } else if (percentage >= 50) {
+    document.getElementById('resultsTitle').textContent = '📝 Geçer Not';
+    document.getElementById('resultsSubtitle').textContent = 'Geçme sınırını yakaladın ama eksiklerin var. Yanlışlarını mutlaka tekrarla.';
+  } else {
+    document.getElementById('resultsTitle').textContent = '📖 Daha Fazla Çalışma Gerekli';
+    document.getElementById('resultsSubtitle').textContent = 'Notlarını tekrar gözden geçir ve yanlışlarını analiz et. Başarabilirsin!';
+  }
+
+  // Topic breakdown
+  buildTopicBreakdown();
+
+  // Review list
+  buildReviewList();
+
+  // Show results
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('timerDisplay').style.display = 'none';
+  document.getElementById('navLabel').textContent = 'Sonuçlar';
+  showScreen('resultsScreen');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===========================
+// TOPIC BREAKDOWN
+// ===========================
+function buildTopicBreakdown() {
+  const topics = {};
+  state.questions.forEach(q => {
+    if (!topics[q.topic]) topics[q.topic] = { correct: 0, total: 0 };
+    topics[q.topic].total++;
+    if (state.results[q.id]) topics[q.topic].correct++;
+  });
+
+  const container = document.getElementById('topicRows');
+  container.innerHTML = '';
+
+  Object.entries(topics).forEach(([name, data]) => {
+    const pct = Math.round((data.correct / data.total) * 100);
+    let barColor;
+    if (pct >= 80) barColor = 'var(--success-color)';
+    else if (pct >= 50) barColor = 'var(--warning-color)';
+    else barColor = 'var(--danger-color)';
+
+    container.innerHTML += `
+      <div class="topic-row">
+        <div class="topic-name">${name}</div>
+        <div class="topic-bar-bg">
+          <div class="topic-bar-fill" style="width: ${pct}%; background: ${barColor};"></div>
+        </div>
+        <div class="topic-percent" style="color: ${barColor}">${pct}%</div>
+      </div>
+    `;
+  });
+}
+
+// ===========================
+// REVIEW LIST
+// ===========================
+function buildReviewList() {
+  const container = document.getElementById('reviewList');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+
+  state.questions.forEach((q, i) => {
+    const isCorrect = state.results[q.id];
+    const userAnswer = state.answers[q.id] !== undefined ? letters[state.answers[q.id]] + ') ' + q.options[state.answers[q.id]] : 'Cevaplanmadı';
+    const correctAnswer = letters[q.correct] + ') ' + q.options[q.correct];
+
+    container.innerHTML += `
+      <div class="review-item" onclick="this.classList.toggle('open')">
+        <div class="review-item-header">
+          <div class="review-q-text">${i + 1}. ${q.question}</div>
+          <div class="review-badge ${isCorrect ? 'correct-badge' : 'wrong-badge'}">${isCorrect ? 'Doğru' : 'Yanlış'}</div>
+        </div>
+        <div class="review-detail">
+          <div class="review-answer-line"><span class="label-inline">Senin cevabın:</span> ${userAnswer}</div>
+          <div class="review-answer-line"><span class="label-inline">Doğru cevap:</span> ${correctAnswer}</div>
+          <div class="review-answer-line" style="margin-top:8px; color: var(--text-muted);"><span class="label-inline">Açıklama:</span> ${q.explanation}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// ===========================
+// CONFETTI
+// ===========================
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#3b82f6', '#8b5cf6', '#22c55e', '#f59e0b', '#ef4444', '#ec4899'];
+
+  for (let i = 0; i < 80; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.animationDelay = Math.random() * 2 + 's';
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    container.appendChild(piece);
+  }
+
+  setTimeout(() => { container.innerHTML = ''; }, 5000);
+}
+
+// ===========================
+// UTILS
+// ===========================
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('quizScreen').classList.contains('active')) return;
+
+  if (e.key === 'ArrowRight' || e.key === 'Enter') {
+    if (state.currentIndex === state.questions.length - 1) {
+      finishQuiz();
+    } else {
+      nextQuestion();
+    }
+  } else if (e.key === 'ArrowLeft') {
+    prevQuestion();
+  } else if (['1', '2', '3', '4'].includes(e.key)) {
+    selectOption(parseInt(e.key) - 1);
+  } else if (['a', 'b', 'c', 'd'].includes(e.key.toLowerCase())) {
+    selectOption('abcd'.indexOf(e.key.toLowerCase()));
+  }
+});
+</script>
+
+</body>
+</html>
