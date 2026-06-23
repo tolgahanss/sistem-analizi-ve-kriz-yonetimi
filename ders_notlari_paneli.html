@@ -1150,6 +1150,36 @@
 
         <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
       </div>
+      <!-- Course 6: Araştırma Yöntemleri -->
+      <div class="course-card" onclick="openSubjectWorkspace('arastirma_yontemleri')">
+        <div class="course-header">
+          <div class="course-icon-wrapper">
+            <i class="fa-solid fa-microscope"></i>
+          </div>
+          <div>
+            <h2 class="course-title">Araştırma Yöntemleri</h2>
+          </div>
+        </div>
+        <p class="course-desc">Bilimsel yöntemler, araştırma yaklaşımları, veri toplama araçları, örnekleme ve araştırma etiği.</p>
+        
+        <div class="course-stats">
+          <span><i class="fa-solid fa-layer-group"></i> 7 Bölüm</span>
+          <span><i class="fa-solid fa-list-check"></i> Sınav Kartları</span>
+          <span><i class="fa-solid fa-circle-question"></i> Mini Test</span>
+        </div>
+
+        <div class="course-progress-container" onclick="event.stopPropagation()">
+          <div class="progress-label-bar">
+            <span>İlerleme Oranı</span>
+            <span id="progress-val-arastirma_yontemleri">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-fill-arastirma_yontemleri"></div>
+          </div>
+        </div>
+
+        <button class="course-action-btn">Ders Çalışma Ekranı <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
     </div>
   </div>
 
@@ -1488,7 +1518,7 @@
       document.getElementById('workspaceView').style.display = 'block';
       
       const titleSpan = document.getElementById('sidebarSubjectTitle');
-      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : (subject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : (subject === 'uretim_yonetimi' ? 'Üretim Yönetimi' : (subject === 'siber_guvenlik' ? 'Siber Güvenlik' : 'Sağlık ve Fonksiyonel Yaşam')));
+      titleSpan.innerText = subject === 'sistem_analizi' ? 'Sistem Analizi' : (subject === 'kriz_yonetimi' ? 'Kriz Yönetimi' : (subject === 'uretim_yonetimi' ? 'Üretim Yönetimi' : (subject === 'siber_guvenlik' ? 'Siber Güvenlik' : (subject === 'arastirma_yontemleri' ? 'Araştırma Yöntemleri' : 'Sağlık ve Fonksiyonel Yaşam'))));
 
       switchTab('notlar');
       updateStats();
@@ -1534,7 +1564,7 @@
     // Render markdown notes
     function renderNotes() {
       const container = document.getElementById('notesContainer');
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : (currentSubject === 'arastirma_yontemleri' ? ARASTIRMA_YONTEMLERI_MD : SAGLIK_MD))));
       container.innerHTML = parseMarkdown(mdContent);
     }
 
@@ -1542,7 +1572,7 @@
     function generateTOC() {
       const tocContainer = document.getElementById('tocContainer');
       tocContainer.innerHTML = "";
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : (currentSubject === 'arastirma_yontemleri' ? ARASTIRMA_YONTEMLERI_MD : SAGLIK_MD))));
       
       const lines = mdContent.split('\n');
       let sectionIndex = 0;
@@ -1574,7 +1604,7 @@
     function renderStudyCards() {
       const grid = document.getElementById('studyGrid');
       grid.innerHTML = "";
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : (currentSubject === 'arastirma_yontemleri' ? ARASTIRMA_YONTEMLERI_MD : SAGLIK_MD))));
       const lines = mdContent.split('\n');
       
       let count = 0;
@@ -1619,7 +1649,7 @@
 
     // Update read progression stats
     function updateStats() {
-      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
+      const mdContent = currentSubject === 'sistem_analizi' ? SISTEM_ANALIZI_MD : (currentSubject === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (currentSubject === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (currentSubject === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : (currentSubject === 'arastirma_yontemleri' ? ARASTIRMA_YONTEMLERI_MD : SAGLIK_MD))));
       
       const totalSec = (mdContent.match(/^## /gm) || []).length;
       document.getElementById('totalSections').innerText = totalSec;
@@ -1639,9 +1669,9 @@
     }
 
     function updateHubProgressBars() {
-      ['sistem_analizi', 'kriz_yonetimi', 'siber_guvenlik', 'uretim_yonetimi', 'saglik'].forEach(subj => {
+      ['sistem_analizi', 'kriz_yonetimi', 'siber_guvenlik', 'uretim_yonetimi', 'saglik', 'arastirma_yontemleri'].forEach(subj => {
         const mdContent = subj === 'sistem_analizi' ? SISTEM_ANALIZI_MD : 
-                          (subj === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (subj === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (subj === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : SAGLIK_MD)));
+                          (subj === 'kriz_yonetimi' ? KRIZ_YONETIMI_MD : (subj === 'uretim_yonetimi' ? URETIM_YONETIMI_MD : (subj === 'siber_guvenlik' ? SIBER_GUVENLIK_MD : (subj === 'arastirma_yontemleri' ? ARASTIRMA_YONTEMLERI_MD : SAGLIK_MD))));
         const totalSec = (mdContent.match(/^## /gm) || []).length;
         
         let completedCount = 0;
@@ -1703,6 +1733,7 @@
 
     // Flat Static Quiz Logic
     const quizPool = {
+      arastirma_yontemleri: [],
       sistem_analizi: [
         {
           q: "Sistem Hiyerarşisi (büyükten küçüğe) hangi sırada yer alır?",
